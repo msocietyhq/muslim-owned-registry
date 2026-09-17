@@ -24,6 +24,55 @@ We need an accessible alternative that demonstrates that a business is currently
 - Requiring LinkedIn, UEN, community vouching, or any single signal from every business.
 - Publishing identity documents or private contact information in the public registry.
 
+## Database schema
+
+The database keeps business identity, categorisation, and verification as separate concerns. System-generated UUIDs are the primary keys for records that expose a UUID below. Public views must expose only fields for which the business has consented; contact email and verification evidence should be access-controlled.
+
+### Businesses
+
+The `businesses` table is the source of the registry listing:
+
+| Field | Requirements |
+| --- | --- |
+| `id` | System-generated UUID, primary key |
+| `uen` | The business UEN; indexed and unique where present |
+| `registered_business_name` | Registered business name |
+| `contact_email` | Email used for owner contact and confirmation; private by default |
+| `urls` | Optional collection of URL/name pairs, allowing multiple entries (for example, `{ "url": "https://domain.com", "name": "Corporate" }`) |
+| `created_at`, `updated_at` | Timestamps maintained by the system |
+
+URLs must be validated and stored as structured pairs rather than as an unlabelled string list, so a business can provide multiple links such as Corporate, LinkedIn, or Menu.
+
+### Tags
+
+- `tags` has a system-generated UUID `id`, a unique tag `name`, and an optional `parent_tag_id` foreign key to `tags.id`. A parent reference supports one-to-many hierarchical categorisation, such as `food` → `catering`, while keeping migration of the taxonomy straightforward.
+- `business_tags` is a join table containing `business_id` and `tag_id` foreign keys (with a uniqueness constraint on the pair). This allows one business to have multiple tags and each tag to apply to multiple businesses.
+- Tag deletion or renaming must preserve historical references and should be handled through migration/deprecation rather than destructive edits.
+
+### Verification (separate layer)
+
+The `verification` table is separate from `businesses` so that a verification signal does not alter or imply the business's identity record:
+
+| Field | Requirements |
+| --- | --- |
+| `id` | System-generated UUID, primary key |
+| `business_id` | UUID foreign key to `businesses.id` |
+| `email` | Email used for this verification event |
+| `verified_at` | Timestamp of successful verification; nullable until verified |
+| `verification_url` | URL for the evidence, such as a LinkedIn profile; designed to support other verification types in future |
+
+A business may have multiple verification records over time or for different evidence types. Verification status and evidence must not be presented as proof of faith, halal certification, endorsement, or guaranteed ongoing operation.
+
+### History and auditability
+
+Each primary data table has a corresponding history table: `businesses_history`, `tags_history`, and `verification_history`. A history row is an immutable snapshot of the record before or after a change and includes the source row's fields plus:
+
+- `created_at`, the timestamp when that historical snapshot was recorded;
+- the operation/change type (create, update, or delete); and
+- the original record UUID, retained so history remains queryable after a record is removed.
+
+History rows are append-only and are written transactionally whenever a record changes. The `businesses_history` snapshot includes the business fields (including its URL/name pairs), `tags_history` includes the tag and parent relationship, and `verification_history` includes the business foreign key, email, verification timestamp, and verification URL. Changes to `business_tags` must also be captured in the audit trail (including added and removed relationships), so tag assignment changes cannot bypass review. Retaining these records lets visitors and moderators self-assess suspicious changes without exposing private contact details or verification evidence.
+
 ## Verification flows
 
 ### Common starting flow
