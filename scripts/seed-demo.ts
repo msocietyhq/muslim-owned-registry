@@ -10,7 +10,7 @@ if (process.env.FIREBASE_USE_EMULATOR === "0") {
   process.env.FIREBASE_PROJECT_ID ||= "demo-muslimowned-sg";
 }
 
-async function useCliCredentials(projectId: string) {
+async function applyFirebaseCliCredentials(projectId: string) {
   const { getGlobalDefaultAccount } = await import("firebase-tools/lib/auth.js");
   const { getCredentialPathAsync } = await import("firebase-tools/lib/defaultCredentials.js");
   const { applicationDefault, getApps, initializeApp } = await import("firebase-admin/app");
@@ -38,7 +38,7 @@ async function main() {
   }
 
   if (process.env.FIREBASE_USE_EMULATOR === "0") {
-    await useCliCredentials(process.env.FIREBASE_PROJECT_ID || "muslimownedsg-d04cb");
+    await applyFirebaseCliCredentials(process.env.FIREBASE_PROJECT_ID || "muslimownedsg-d04cb");
   }
 
   const { initAdmin } = await import("../src/lib/firebase/admin");
