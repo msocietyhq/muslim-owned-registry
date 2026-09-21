@@ -89,7 +89,7 @@ scripts/            seed, Firestore migrate, confirmation job
 
 Env template: [`.env.example`](.env.example). Never commit `.env.local`.
 
-Required in production (Railway): `DATABASE_URL`, `BETTER_AUTH_SECRET`, `JOBS_SECRET`, `NEXT_PUBLIC_SITE_URL`, `ADMIN_EMAILS`. Optional: `RESEND_API_KEY`, `MAIL_FROM`, `DEEPSEEK_API_KEY`, `DEEPSEEK_MODEL`. `ALLOW_DEV_OTP` must be `false` in production.
+Required in production (Railway): `DATABASE_URL`, `BETTER_AUTH_SECRET`, `JOBS_SECRET`, `NEXT_PUBLIC_SITE_URL`, `ADMIN_EMAILS`. To send mail: `RESEND_API_KEY` and `MAIL_FROM`. Optional: `DEEPSEEK_API_KEY`, `DEEPSEEK_MODEL`. `ALLOW_DEV_OTP` must be `false` in production. Mail From is not hardcoded — set `MAIL_FROM` on the host.
 
 ## Local run
 

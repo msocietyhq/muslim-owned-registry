@@ -18,8 +18,15 @@ import {
 } from "@/lib/email-layout";
 
 describe("owner emails", () => {
-  it("sends from the verified PlayTours mailbox", () => {
-    expect(fromAddress()).toBe("muslimowned.sg <contact@playtours.email>");
+  it("reads the From address from MAIL_FROM", () => {
+    const previous = process.env.MAIL_FROM;
+    process.env.MAIL_FROM = "Example <mail@example.com>";
+    try {
+      expect(fromAddress()).toBe("Example <mail@example.com>");
+    } finally {
+      if (previous === undefined) delete process.env.MAIL_FROM;
+      else process.env.MAIL_FROM = previous;
+    }
   });
 
   it("escapes HTML in listing names", () => {

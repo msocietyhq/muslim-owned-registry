@@ -9,6 +9,7 @@ import {
   type SiteEmailContent,
 } from "@/lib/email-layout";
 import type { ListingStats, UrlPair } from "@/lib/types";
+import { runtimeEnv } from "@/lib/runtime-env";
 import { formatWhatsappDisplay } from "@/lib/whatsapp";
 
 export type MailContent = {
@@ -18,11 +19,11 @@ export type MailContent = {
 };
 
 export function fromAddress() {
-  return process.env.MAIL_FROM || "muslimowned.sg <contact@playtours.email>";
+  return runtimeEnv("MAIL_FROM");
 }
 
 function resendClient() {
-  const key = process.env.RESEND_API_KEY;
+  const key = runtimeEnv("RESEND_API_KEY");
   if (!key) return null;
   return new Resend(key);
 }
@@ -36,8 +37,12 @@ async function send(to: string | string[], mail: MailContent) {
     console.info(`[mail:dev] to=${Array.isArray(to) ? to.join(",") : to} subject=${mail.subject}\n${mail.text}`);
     return { id: "dev-log" };
   }
+  const from = fromAddress();
+  if (!from) {
+    throw new Error("Mail is not configured. Set MAIL_FROM.");
+  }
   const result = await client.emails.send({
-    from: fromAddress(),
+    from,
     to,
     subject: mail.subject,
     html: mail.html,

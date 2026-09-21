@@ -4,11 +4,13 @@ import { TERMS_VERSION } from "../src/lib/types";
 
 async function main() {
   const to = process.argv[2] || "afiq980@gmail.com";
-  const from =
-    process.env.MAIL_FROM || "muslimowned.sg <contact@playtours.email>";
+  const from = process.env.MAIL_FROM;
   const key = process.env.RESEND_API_KEY;
   if (!key) {
     throw new Error("RESEND_API_KEY is missing.");
+  }
+  if (!from) {
+    throw new Error("MAIL_FROM is missing.");
   }
 
   process.env.NEXT_PUBLIC_SITE_URL ||= "https://muslimowned.sg";
