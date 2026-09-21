@@ -46,7 +46,7 @@ describe("i18n", () => {
     expect(copy("en").legal.aboutBody.toLowerCase()).not.toContain("chamber");
     expect(copy("ms").legal.aboutBody.toLowerCase()).not.toContain("smcci");
     expect(copy("en").biz.about).toBe(
-      "All information, text and images are submitted by the business owner. Admins screen listings for spam. Every change is logged with who made it. The accuracy of the listings is 100% the responsibility of the business owner.",
+      "All information, text and images are submitted by the business owner. Every change is logged with who made it. The accuracy of the listings is 100% the responsibility of the business owner. Admins screen listings only for spam, not for accuracy.",
     );
     expect(copy("en").biz.about.toLowerCase()).not.toContain("muis");
     expect(copy("en").legal.aboutBody.toLowerCase()).not.toContain("muis");

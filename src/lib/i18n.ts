@@ -230,7 +230,7 @@ export const messages = {
       online: "This page is listed as online, so there is no map pin.",
       openOsm: "Open this pin on OpenStreetMap",
       about:
-        "All information, text and images are submitted by the business owner. Admins screen listings for spam. Every change is logged with who made it. The accuracy of the listings is 100% the responsibility of the business owner.",
+        "All information, text and images are submitted by the business owner. Every change is logged with who made it. The accuracy of the listings is 100% the responsibility of the business owner. Admins screen listings only for spam, not for accuracy.",
       demoNote: "This listing is sample data for testing. It is not a real business.",
       close: "Close listing",
       externalTitle: "Open this link?",
@@ -820,7 +820,7 @@ export const messages = {
       online: "Halaman ini disenaraikan sebagai dalam talian, jadi tiada pin peta.",
       openOsm: "Buka pin ini di OpenStreetMap",
       about:
-        "Semua maklumat, teks dan imej dihantar oleh pemilik perniagaan. Admin menyaring senarai daripada spam. Setiap perubahan dicatat dengan siapa yang membuatnya. Ketepatan senarai adalah 100% tanggungjawab pemilik perniagaan.",
+        "Semua maklumat, teks dan imej dihantar oleh pemilik perniagaan. Setiap perubahan dicatat dengan siapa yang membuatnya. Ketepatan senarai adalah 100% tanggungjawab pemilik perniagaan. Admin menyaring senarai hanya untuk spam, bukan untuk ketepatan.",
       demoNote: "Senarai ini ialah data contoh untuk ujian. Ia bukan perniagaan sebenar.",
       close: "Tutup senarai",
       externalTitle: "Buka pautan ini?",
