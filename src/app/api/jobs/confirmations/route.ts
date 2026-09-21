@@ -1,10 +1,11 @@
 import { NextRequest } from "next/server";
 import { runConfirmations } from "@/lib/jobs/confirmations";
 import { errorResponse, json } from "@/lib/http";
+import { runtimeEnv } from "@/lib/runtime-env";
 
 export async function POST(request: NextRequest) {
   try {
-    const secret = process.env.JOBS_SECRET;
+    const secret = runtimeEnv("JOBS_SECRET");
     if (secret) {
       const header = request.headers.get("x-job-secret");
       const bearer = (request.headers.get("authorization") || "").replace(/^Bearer\s+/i, "");

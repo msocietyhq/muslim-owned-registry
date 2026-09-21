@@ -8,10 +8,11 @@ import { z } from "zod";
 import { getDbSync } from "@/lib/db/client";
 import { account, session, user, verification } from "@/lib/db/schema";
 import { siteUrl } from "@/lib/site-url";
+import { runtimeEnv } from "@/lib/runtime-env";
 
 function authSecret() {
   return (
-    process.env.BETTER_AUTH_SECRET ||
+    runtimeEnv("BETTER_AUTH_SECRET") ||
     (process.env.NODE_ENV === "production" ? "" : "dev-muslimowned-sg-auth-secret-change-me")
   );
 }

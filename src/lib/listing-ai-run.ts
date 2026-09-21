@@ -22,6 +22,7 @@ import {
 import { extractPageColorHints, mergePageColorHints } from "@/lib/listing-colors";
 import { parsePhotos } from "@/lib/photos";
 import { suggestTagIds } from "@/lib/suggest-tags";
+import { runtimeEnv } from "@/lib/runtime-env";
 
 const FETCH_MS = 12000;
 const MAX_HTML = 1_200_000;
@@ -69,7 +70,7 @@ export async function fetchWebsitePages(startUrl: string) {
 
 async function fillWithModel(hints: PageHints, photos: string[], website: string): Promise<ListingAiDraft> {
   const fallback = heuristicListingDraft(hints, photos, website);
-  const key = process.env.DEEPSEEK_API_KEY;
+  const key = runtimeEnv("DEEPSEEK_API_KEY");
   if (!key) return fallback;
 
   const imageParts = await listingAiImageParts(photos);

@@ -15,6 +15,7 @@ import {
 } from "@/lib/listing-search";
 import { markdownPlainText } from "@/lib/markdown";
 import { geocodeSingapore } from "@/lib/nominatim";
+import { runtimeEnv } from "@/lib/runtime-env";
 
 type Group = {
   title: string;
@@ -221,12 +222,12 @@ export async function planFromIntent(intent: string): Promise<{
     return { groups: [], model: "none" };
   }
 
-  const key = process.env.DEEPSEEK_API_KEY;
+  const key = runtimeEnv("DEEPSEEK_API_KEY");
   if (!key) {
     return { groups: heuristicPlan(intent, catalog, origin), model: "heuristic" };
   }
 
-  const model = process.env.DEEPSEEK_MODEL || "deepseek-chat";
+  const model = runtimeEnv("DEEPSEEK_MODEL") || "deepseek-chat";
   const response = await fetch("https://api.deepseek.com/chat/completions", {
     method: "POST",
     headers: {

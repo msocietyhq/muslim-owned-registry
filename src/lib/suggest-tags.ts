@@ -1,4 +1,5 @@
 import type { Tag } from "@/lib/types";
+import { runtimeEnv } from "@/lib/runtime-env";
 
 const KEYWORDS: Record<string, string[]> = {
   food: ["food", "makan", "nasi", "kitchen", "cook", "meal", "lunch", "dinner"],
@@ -57,7 +58,7 @@ export async function suggestTagIds(params: {
     `${params.brandName} ${params.summary} ${params.description}`,
     params.tags,
   );
-  const key = process.env.DEEPSEEK_API_KEY;
+  const key = runtimeEnv("DEEPSEEK_API_KEY");
   if (!key || params.tags.length === 0) return fallback;
 
   try {
