@@ -1,0 +1,24 @@
+node_modules
+.next
+out
+.env
+.env.local
+.env.*.local
+emulator-data
+*.log
+.DS_Store
+serviceAccount.json
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+.firebase
+.railway
+*.pem
+*.p12
+credentials.json
+google-credentials.json
+# Owner-uploaded UEN evidence and local dumps
+uploads/
+uen/
+*.csv.gz
+firestore-export/

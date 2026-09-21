@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" role="img">
+  <rect width="640" height="280" fill="#0c3f32"/>
+  <rect x="20" y="28" width="600" height="224" fill="#f4efe4"/>
+  <rect x="20" y="28" width="600" height="224" fill="none" stroke="#1a2a24" stroke-width="2"/>
+  <rect x="26" y="34" width="588" height="212" fill="none" stroke="#1a2a24" stroke-width="1"/>
+  <text fill="#122821" font-family="Times New Roman, Times, serif" font-style="italic" font-size="22" text-anchor="middle">
+    <tspan x="320" y="108">“We are <tspan font-weight="700">not associated</tspan> with any other</tspan>
+    <tspan x="320" y="140">Muslim-owned enterprise websites</tspan>
+    <tspan x="320" y="172">or organisation.”</tspan>
+  </text>
+  <text x="606" y="232" text-anchor="end" fill="#3d4a44" font-family="ui-sans-serif, system-ui, sans-serif" font-size="9" letter-spacing="0.22em">MUSLIMOWNED.SG</text>
+</svg>

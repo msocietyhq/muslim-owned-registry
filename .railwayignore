@@ -1,0 +1,16 @@
+node_modules
+.next
+out
+.env
+.env.local
+.env.*.local
+emulator-data
+.git
+*.log
+.DS_Store
+serviceAccount.json
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+.firebase
+tsconfig.tsbuildinfo

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" role="img" aria-label="muslimowned.sg">
+  <circle cx="64" cy="64" r="64" fill="#0c3f32"/>
+  <path
+    fill="#f4efe4"
+    d="M40 102V58c0-16 10-28 24-32 14 4 24 16 24 32v44H78V60c0-10-6-18-14-20.5C56 42 50 50 50 60v42H40Z"
+  />
+  <rect x="56" y="74" width="16" height="28" rx="3" fill="#c4a35a"/>
+</svg>
