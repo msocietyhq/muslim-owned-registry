@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   confirmationEmail,
   fromAddress,
+  listQuickEmail,
   listingInviteEmail,
   listingLiveEmail,
   listingReceiptEmail,
@@ -109,6 +110,19 @@ describe("owner emails", () => {
       termsCopy: TERMS_COPY,
     });
 
+    expect(
+      listQuickEmail({
+        code: "654321",
+        magicUrl: "https://muslimowned.sg/list-for-free-in-3-minutes/verify?email=a@b.sg&token=x",
+        brandName: "Makcik Cakes",
+      }).html,
+    ).toContain("7 days");
+    expect(
+      listingInviteEmail({
+        brandName: "PlayTours",
+        openUrl: "https://muslimowned.sg/login/verify?email=owner@playtours.app&token=x&next=/app/businesses/abc",
+      }).html,
+    ).toContain("7 days");
     expect(login.html).toContain("123456");
     expect(login.html).toContain(EMAIL_COLORS.mihrab);
     expect(live.html).toContain("approved and live");

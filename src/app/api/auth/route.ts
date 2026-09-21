@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { sixDigitCode, randomToken, sha256, hashesEqual } from "@/lib/crypto";
+import { sixDigitCode, randomToken, sha256, hashesEqual, SIGN_IN_CHALLENGE_MS } from "@/lib/crypto";
 import { createPasswordlessSession } from "@/lib/auth";
 import { getOrCreateOwnerAccount } from "@/lib/ensure-owner";
 import { keepLoginNextPath, safeAppPath } from "@/lib/app-path";
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     const nextPath = keepLoginNextPath(existing.data(), body.next);
     const code = sixDigitCode();
     const token = randomToken();
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+    const expiresAt = new Date(Date.now() + SIGN_IN_CHALLENGE_MS).toISOString();
 
     await db.collection("loginChallenges").doc(email).set({
       email,

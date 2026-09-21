@@ -1,6 +1,6 @@
 import { after, NextRequest } from "next/server";
 import { z } from "zod";
-import { sixDigitCode, randomToken, sha256, hashesEqual } from "@/lib/crypto";
+import { sixDigitCode, randomToken, sha256, hashesEqual, listingOwnerChallengeExpiresAt } from "@/lib/crypto";
 import { createOwnerListing } from "@/lib/create-owner-listing";
 import { sendListQuickMail, sendListingReceiptMail } from "@/lib/email";
 import { createPasswordlessSession } from "@/lib/auth";
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
 
     const code = sixDigitCode();
     const token = randomToken();
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+    const expiresAt = listingOwnerChallengeExpiresAt(now);
     await db.collection(LIST_QUICK_CHALLENGES).doc(loginEmail).set({
       email: loginEmail,
       pendingId,

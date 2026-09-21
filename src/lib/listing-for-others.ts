@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { addDays, randomToken, sha256, sixDigitCode } from "@/lib/crypto";
+import { listingOwnerChallengeExpiresAt, randomToken, sha256, sixDigitCode } from "@/lib/crypto";
 import { listingOwnerAppPath } from "@/lib/app-path";
 import { getOrCreateOwnerAccount } from "@/lib/ensure-owner";
 import { sendListingInviteMail } from "@/lib/email";
@@ -125,7 +125,7 @@ export async function createListingForOtherOwner(
     tokenHash: sha256(loginToken),
     nextPath,
     kind: "listing-invite",
-    expiresAt: addDays(now, 7),
+    expiresAt: listingOwnerChallengeExpiresAt(now),
     createdAt: now,
   });
   const openUrl = `${siteUrl()}/login/verify?email=${encodeURIComponent(ownerEmail)}&token=${loginToken}&next=${encodeURIComponent(nextPath)}`;

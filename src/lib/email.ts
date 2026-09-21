@@ -102,7 +102,7 @@ export function listQuickEmail(params: { code: string; magicUrl: string; brandNa
         "We will only send the listing to an admin after you confirm. It is not public yet.",
       ],
       highlight: params.code,
-      highlightHint: "It expires in 10 minutes.",
+      highlightHint: "The code and link stay valid for 7 days.",
       cta: { href: params.magicUrl, label: "Confirm this listing" },
       outro: ["If you did not start a listing, you can ignore this email."],
       footer: DIRECTORY_FOOTER,
@@ -202,7 +202,7 @@ export function listingInviteEmail(params: {
       ],
       cta: { href: params.openUrl, label: "Open and finish this listing" },
       outro: [
-        "The link signs you in with this email. If it has expired, sign in at muslimowned.sg with the same email and open Your listings.",
+        "The link signs you in with this email and stays valid for 7 days. If it has expired, sign in at muslimowned.sg with the same email and open Your listings.",
       ],
       footer: DIRECTORY_FOOTER,
     },

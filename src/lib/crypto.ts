@@ -31,6 +31,16 @@ export function addDays(iso: string, days: number): string {
   return date.toISOString();
 }
 
+/** Sign-in OTP for someone already on /login. */
+export const SIGN_IN_CHALLENGE_MS = 10 * 60 * 1000;
+
+/** OTP / magic link when an owner may not open mail straight away (add-for-others, list-quick). */
+export const LISTING_OWNER_CHALLENGE_DAYS = 7;
+
+export function listingOwnerChallengeExpiresAt(nowIso = new Date().toISOString()) {
+  return addDays(nowIso, LISTING_OWNER_CHALLENGE_DAYS);
+}
+
 export function isWithinOneYear(isoDate: string, now = new Date()): boolean {
   const downloaded = new Date(isoDate);
   if (Number.isNaN(downloaded.getTime())) return false;
