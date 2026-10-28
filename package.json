@@ -12,9 +12,11 @@
     "test:db": "USE_PGLITE=1 npx vitest run tests/db",
     "emulators": "echo 'Firebase emulators are retired. Use DATABASE_URL or USE_PGLITE=1.'",
     "seed": "npx tsx scripts/seed.ts",
+    "seed:seo-geo": "npx tsx scripts/seed-seo-geo-knowledge.ts",
     "seed:demo": "npx tsx scripts/seed-demo.ts",
     "migrate:firestore": "npx tsx scripts/migrate-firestore.ts",
     "job:confirmations": "npx tsx scripts/run-confirmations.ts",
+    "job:seo-geo": "npx tsx scripts/run-seo-geo-queue.ts",
     "backfill:founding": "npx tsx scripts/backfill-founding.ts"
   },
   "dependencies": {

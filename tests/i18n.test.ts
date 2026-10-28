@@ -126,7 +126,6 @@ describe("i18n", () => {
     expect(copy("en").app.receiptNotice.toLowerCase()).toContain("spam folder");
     expect(copy("en").app.pendingMail.toLowerCase()).toContain("spam folder");
     expect(copy("ms").login.sent.toLowerCase()).toContain("folder spam");
-    expect(copy("en").bannerNote).toContain("mid-Oct 2026");
     expect(copy("en").biz.copyAddress).toBe("Copy");
     expect(copy("en").biz.externalLead.toLowerCase()).toContain("listing owner");
     expect(copy("en").biz.externalConfirm).toBe("Open new tab");
@@ -149,7 +148,10 @@ describe("i18n", () => {
     expect(copy("en").add.acceptLegend.toLowerCase()).toContain("each sentence");
     expect(copy("en").app.rejectedLead.toLowerCase()).toContain("not published");
     expect(copy("en").app.resubmit.toLowerCase()).toContain("submit");
-    expect(copy("en").adminPage.rejectNeedNote.toLowerCase()).toContain("10");
+    expect(copy("en").feedback.title.toLowerCase()).toContain("keep this list");
+    expect(copy("en").feedback.example.toLowerCase()).toContain("do not make");
+    expect(copy("en").nav.feedback).toBe("Feedback");
+    expect(copy("en").adminPage.tabTasks).toBe("Tasks");
     expect(copy("en").add.foundingBody).toContain("80%");
     expect(copy("en").add.foundingBody.toLowerCase()).toContain("random pick");
     expect(copy("ms").add.foundingBody).toContain("80%");

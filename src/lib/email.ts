@@ -218,6 +218,97 @@ export async function sendListingInviteMail(params: {
   return send(params.to, listingInviteEmail(params));
 }
 
+export function adminTaskEmail(params: {
+  heading: string;
+  detail: string;
+  openUrl: string;
+}): MailContent {
+  return mailFrom(
+    {
+      preheader: `${params.heading} Open the admin page from this email — you do not need to type a code.`,
+      kicker: "Admin",
+      heading: params.heading,
+      intro: [
+        params.detail,
+        "The button signs you in with this admin email and opens the tasks on the admin page. It stays valid for 7 days.",
+      ],
+      cta: { href: params.openUrl, label: "Open admin tasks" },
+      outro: ["If you are no longer an admin, you can ignore this email."],
+      footer: DIRECTORY_FOOTER,
+    },
+    params.heading,
+  );
+}
+
+export async function sendAdminTaskMail(params: {
+  to: string;
+  heading: string;
+  detail: string;
+  openUrl: string;
+}) {
+  return send(params.to, adminTaskEmail(params));
+}
+
+export function feedbackConfirmEmail(params: { confirmUrl: string }): MailContent {
+  return mailFrom(
+    {
+      preheader: "One tap to send your note to the muslimowned.sg admins.",
+      kicker: "Confirm your email",
+      heading: "Send your note to the admins",
+      intro: [
+        "Someone used this address on the muslimowned.sg feedback page. Click the button to confirm it is you. We will then email the admins. We will not publish what you wrote.",
+      ],
+      cta: { href: params.confirmUrl, label: "Yes, send this note" },
+      outro: [
+        "If you did not write to muslimowned.sg, ignore this email. The button stays valid for 7 days.",
+      ],
+      footer: DIRECTORY_FOOTER,
+    },
+    "Confirm your note to muslimowned.sg",
+  );
+}
+
+export async function sendFeedbackConfirmMail(params: { to: string; confirmUrl: string }) {
+  return send(params.to, feedbackConfirmEmail(params));
+}
+
+export function feedbackReceivedEmail(params: {
+  fromEmail: string;
+  message: string;
+  prompt?: string;
+  openUrl: string;
+}): MailContent {
+  const intro = [
+    `${params.fromEmail} confirmed their email and sent a note.`,
+    params.message,
+  ];
+  if (params.prompt?.trim()) {
+    intro.push(`They also sent an improvement prompt:\n${params.prompt.trim()}`);
+  }
+  return mailFrom(
+    {
+      preheader: `Feedback from ${params.fromEmail}.`,
+      kicker: "Public feedback",
+      heading: "A confirmed note is waiting",
+      intro,
+      cta: { href: params.openUrl, label: "Open admin tasks" },
+      outro: ["The button signs you in and opens the admin page. It stays valid for 7 days."],
+      footer: DIRECTORY_FOOTER,
+    },
+    `Feedback from ${params.fromEmail}`,
+  );
+}
+
+export async function sendFeedbackReceivedMail(params: {
+  to: string;
+  fromEmail: string;
+  message: string;
+  prompt?: string;
+  openUrl: string;
+}) {
+  return send(params.to, feedbackReceivedEmail(params));
+}
+
 export function confirmationEmail(params: {
   brandName: string;
   confirmUrl: string;

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { sixDigitCode, randomToken, sha256, hashesEqual, SIGN_IN_CHALLENGE_MS } from "@/lib/crypto";
 import { createPasswordlessSession } from "@/lib/auth";
 import { getOrCreateOwnerAccount } from "@/lib/ensure-owner";
-import { keepLoginNextPath, safeAppPath } from "@/lib/app-path";
+import { keepLoginNextPath, safeSessionPath } from "@/lib/app-path";
 import { sendLoginMail } from "@/lib/email";
 import { initAdmin } from "@/lib/firebase/admin";
 import { errorResponse, HttpError, json, siteUrl } from "@/lib/http";
@@ -82,7 +82,7 @@ export async function PUT(request: NextRequest) {
     const owner = await getOrCreateOwnerAccount(email);
     await createPasswordlessSession(email, request.headers);
     await db.collection("loginChallenges").doc(email).delete();
-    const next = safeAppPath(typeof data.nextPath === "string" ? data.nextPath : undefined);
+    const next = safeSessionPath(typeof data.nextPath === "string" ? data.nextPath : undefined);
 
     return json({
       ok: true,

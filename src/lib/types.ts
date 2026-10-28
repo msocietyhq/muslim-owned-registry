@@ -103,7 +103,7 @@ export type Verification = {
   createdAt: string;
 };
 
-export type AdminTaskType = "listing_verification" | "reconfirmation_overdue";
+export type AdminTaskType = "listing_verification" | "reconfirmation_overdue" | "site_feedback";
 
 export type AdminTask = {
   id: string;

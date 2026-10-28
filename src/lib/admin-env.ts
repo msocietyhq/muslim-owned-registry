@@ -1,5 +1,7 @@
+import { runtimeEnv } from "@/lib/runtime-env";
+
 export function adminEmails(): string[] {
-  return (process.env.ADMIN_EMAILS || "afiq980@gmail.com")
+  return (runtimeEnv("ADMIN_EMAILS") || "afiq980@gmail.com")
     .split(",")
     .map((value) => value.trim().toLowerCase())
     .filter(Boolean);

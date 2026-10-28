@@ -9,6 +9,7 @@ import {
   allocatePublishedSlug,
   toBusinessDoc,
 } from "@/lib/data";
+import { notifyAdminsOfOpenTask } from "@/lib/admin-notify";
 import { sendListingLiveMail, sendListingReceiptMail, sendListingRejectedMail } from "@/lib/email";
 import { createOwnerListing } from "@/lib/create-owner-listing";
 import { listingNeedsReview, ownerIdentityLocked } from "@/lib/listing-review";
@@ -193,6 +194,14 @@ export async function PATCH(request: NextRequest) {
       resolvedBy: null,
       resolutionNote: null,
     });
+
+    after(() =>
+      notifyAdminsOfOpenTask({
+        type: "listing_verification",
+        heading: `${next.brandName} is waiting for review`,
+        detail: `${next.brandName} was submitted again after an admin asked for changes. Open the admin page to review it.`,
+      }).catch((error) => console.error("admin task mail", error)),
+    );
 
     return json({ business: next, taskId });
   } catch (error) {

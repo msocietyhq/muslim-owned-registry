@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Caveat, Fraunces, Noto_Sans_SC, Noto_Sans_Tamil, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { SiteFooter, SiteHeader } from "@/components/chrome";
+import { FeedbackFab } from "@/components/feedback-fab";
 import { I18nProvider } from "@/components/i18n-provider";
 import { WishlistDock } from "@/components/wishlist-dock";
 import { SiteVisitTracker } from "@/components/site-visit-tracker";
@@ -97,6 +98,7 @@ export default async function RootLayout({
           {modal}
           <SiteFooter />
           <WishlistDock />
+          <FeedbackFab />
           <SiteVisitTracker />
         </I18nProvider>
       </body>

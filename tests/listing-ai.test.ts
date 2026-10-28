@@ -9,7 +9,7 @@ import {
   parseSourceWebsite,
   sameOriginStylesheetUrls,
 } from "@/lib/listing-ai";
-import { keepLoginNextPath, listingOwnerAppPath, safeAppPath } from "@/lib/app-path";
+import { keepLoginNextPath, listingOwnerAppPath, safeAppPath, safeSessionPath } from "@/lib/app-path";
 
 const html = `
 <html>
@@ -64,6 +64,9 @@ describe("listing AI draft", () => {
     expect(safeAppPath("/app/businesses/abc")).toBe("/app/businesses/abc");
     expect(safeAppPath("https://evil.example/app")).toBeNull();
     expect(safeAppPath("/login")).toBeNull();
+    expect(safeSessionPath("/admin")).toBe("/admin");
+    expect(safeSessionPath("/admin/add-for-others")).toBe("/admin/add-for-others");
+    expect(safeSessionPath("/login")).toBeNull();
   });
 
   it("keeps an unexpired listing invite path when a new sign-in code is requested", () => {

@@ -18,7 +18,7 @@ ui-debug.log
 credentials.json
 google-credentials.json
 # Owner-uploaded UEN evidence and local dumps
-uploads/
+/uploads/
 uen/
 *.csv.gz
 firestore-export/

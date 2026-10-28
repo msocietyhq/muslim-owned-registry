@@ -1,4 +1,5 @@
 import { randomUUID } from "crypto";
+import { notifyAdminsOfOpenTask } from "@/lib/admin-notify";
 import { getBusinessesByOwner, getOwner, getTagMap, toBusinessDoc, uenTaken } from "@/lib/data";
 import { listingColorsFromInput } from "@/lib/listing-colors";
 import { applyOwnerPublicName, needsOwnerPublicName } from "@/lib/owner-name";
@@ -184,6 +185,12 @@ export async function createOwnerListing(params: {
     resolvedBy: null,
     resolutionNote: null,
   });
+
+  void notifyAdminsOfOpenTask({
+    type: "listing_verification",
+    heading: `${business.brandName} is waiting for review`,
+    detail: `${business.brandName} (${business.registeredName || "no registered name"}, UEN ${business.uen || "none"}) was submitted. Open the admin page to accept, reject, or edit it.`,
+  }).catch((error) => console.error("admin task mail", error));
 
   return {
     stored,

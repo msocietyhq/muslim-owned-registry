@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import { safeAppPath } from "@/lib/app-path";
+import { sessionRedirect } from "@/lib/app-path";
 import { ui } from "@/lib/ui";
 
 const verifying = new Set<string>();
@@ -30,7 +30,7 @@ function Verify() {
       .then(async (response) => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.error);
-      router.replace(safeAppPath(data.next) || safeAppPath(params.get("next")) || "/app");
+      router.replace(sessionRedirect(data.next || params.get("next")));
       })
       .catch((err) => setError(err.message || "Could not use this link."));
   }, [params, router]);

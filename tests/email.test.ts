@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   confirmationEmail,
   fromAddress,
+  adminTaskEmail,
+  feedbackConfirmEmail,
   listQuickEmail,
   listingInviteEmail,
   listingLiveEmail,
@@ -158,5 +160,18 @@ describe("owner emails", () => {
       expect(mail.html).toContain("muslimowned.sg");
       expect(mail.html).toContain("border-radius:999px");
     }
+    const taskMail = adminTaskEmail({
+      heading: "PlayTours is waiting for review",
+      detail: "Open the admin page to accept or reject it.",
+      openUrl: "https://muslimowned.sg/login/verify?email=admin@x.sg&token=t&next=/admin",
+    });
+    expect(taskMail.html).toContain("Open admin tasks");
+    expect(taskMail.html).toContain("next=/admin");
+    expect(taskMail.html).toContain("7 days");
+    const confirm = feedbackConfirmEmail({
+      confirmUrl: "https://muslimowned.sg/feedback/verify?email=a%40b.sg&token=t",
+    });
+    expect(confirm.html).toContain("Yes, send this note");
+    expect(confirm.html).toContain("/feedback/verify");
   });
 });

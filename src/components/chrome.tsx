@@ -37,9 +37,15 @@ export function SiteHeader() {
     { href: "/browse", label: t.nav.browse },
     { href: "/blog", label: t.nav.stories },
     { href: "/who-we-are", label: t.nav.whoWeAre },
+    { href: "/feedback", label: t.nav.feedback },
     { href: "/why", label: t.nav.why },
     ...(admin ? [{ href: "/admin", label: t.nav.admin }] : []),
-    ...(user ? [{ href: "/app", label: t.nav.yours }] : []),
+    ...(user
+      ? [
+          { href: "/app", label: t.nav.yours },
+          { href: "/tools", label: t.nav.tools },
+        ]
+      : []),
   ];
 
   return (
@@ -47,9 +53,6 @@ export function SiteHeader() {
       <div className="bg-mihrab px-3 py-1.5 pt-[max(0.35rem,env(safe-area-inset-top))] text-center">
         <p className="font-sans text-[11px] font-semibold tracking-[0.06em] text-gold sm:text-xs">
           {t.banner}
-        </p>
-        <p className="mt-0.5 font-sans text-[10px] font-medium tracking-[0.02em] text-gold/80 sm:text-[11px]">
-          {t.bannerNote}
         </p>
       </div>
       <header className="border-b border-rule/80 bg-surface/95 backdrop-blur">
@@ -193,6 +196,11 @@ export function SiteFooter() {
                 {t.footer.whoWeAre}
               </Link>
             </li>
+            <li>
+              <Link className={footerLink} href="/feedback">
+                {t.footer.feedback}
+              </Link>
+            </li>
           </ul>
         </div>
         <div>
@@ -208,6 +216,11 @@ export function SiteFooter() {
             <li>
               <Link className={footerLink} href="/login">
                 {t.footer.signIn}
+              </Link>
+            </li>
+            <li>
+              <Link className={footerLink} href="/tools">
+                {t.nav.tools}
               </Link>
             </li>
           </ul>

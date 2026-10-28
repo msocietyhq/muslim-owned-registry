@@ -50,6 +50,7 @@ Product decisions: [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md). Pull requests
 
 - Six-month confirmation: miss the window → unpublish + admin task; owner can reconfirm
 - Daily job: `npm run job:confirmations` or `POST /api/jobs/confirmations` with `JOBS_SECRET`
+- SEO/GEO queue: `npm run job:seo-geo` or `POST /api/jobs/seo-geo` with `JOBS_SECRET` (one job at a time)
 - Demo listings can be marked so they never enter the sitemap
 - Public history on every create / update / delete of listings, owners, tags, verifications, admins
 
@@ -65,7 +66,7 @@ Product decisions: [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md). Pull requests
 | Files (UEN, listing photos) | Postgres `bytea` (`files` table). Neon Object Storage is not used (that product is `us-east-2` only) |
 | Mail | Resend (`RESEND_API_KEY`) — empty until you set it on Railway |
 | Smart search LLM | DeepSeek (`DEEPSEEK_API_KEY`) — falls back to a keyword matcher if unset |
-| Cron | Railway Cron service still to add: `0 9 * * *` → `npm run job:confirmations` |
+| Cron | Railway Cron still to add: `0 9 * * *` → `npm run job:confirmations`; `* * * * *` → `npm run job:seo-geo` |
 | Official domain | `muslimowned.sg` (point DNS at Railway when ready) |
 | Preview URL | https://web-production-c4ddd.up.railway.app |
 
