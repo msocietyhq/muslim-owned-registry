@@ -14,6 +14,7 @@ import {
 } from "@/lib/listing-search";
 import { localizeBusinesses, localizeTagMap, localizeTags } from "@/lib/localize";
 import { ui } from "@/lib/ui";
+import { sortUnclaimedLast } from "@/lib/unclaimed";
 
 export const revalidate = 3600;
 
@@ -80,10 +81,12 @@ export default async function BrowsePage({
         return [...nearby, ...extra];
       })()
     : scoredHits.map((item) => ({ item, km: null as number | null }));
-  const uniqueRanked = uniqueListings(ranked.map((row) => row.item)).map((item) => {
+  const uniqueRanked = sortUnclaimedLast(
+    uniqueListings(ranked.map((row) => row.item)).map((item) => {
     const row = ranked.find((entry) => entry.item.id === item.id);
-    return row || { item, km: null as number | null };
-  });
+    return { ...(row || { item, km: null as number | null }), unclaimed: item.unclaimed };
+  }),
+  );
   const locale = dateLocale(lang);
   const [shownBusinesses, shownTags, shownTagList] = await Promise.all([
     localizeBusinesses(uniqueRanked.map((row) => row.item), lang),

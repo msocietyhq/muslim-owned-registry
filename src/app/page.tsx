@@ -6,6 +6,7 @@ import { dateLocale } from "@/lib/i18n";
 import { getCopy } from "@/lib/lang";
 import { localizeBusinesses, localizeTags } from "@/lib/localize";
 import { shufflePickWeighted } from "@/lib/shuffle";
+import { sampleUnclaimedLast } from "@/lib/unclaimed";
 import { getSearchCount } from "@/lib/stats";
 import { ui } from "@/lib/ui";
 
@@ -23,7 +24,9 @@ export default async function HomePage() {
     localizeBusinesses(businesses, lang),
     localizeTags(tags, lang),
   ]);
-  const preview = shufflePickWeighted(shown, 9, (business) => homepageFeatureWeight(business));
+  const preview = sampleUnclaimedLast(shown, 9, (pool, count) =>
+    shufflePickWeighted(pool, count, (business) => homepageFeatureWeight(business)),
+  );
   const locale = dateLocale(lang);
 
   return (

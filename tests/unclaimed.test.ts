@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { withUnclaimedReasons } from "@/lib/plan";
-import { listingIsUnclaimed } from "@/lib/unclaimed";
+import { placeUnclaimedLast, withUnclaimedReasons } from "@/lib/plan";
+import { listingIsUnclaimed, sampleUnclaimedLast, sortUnclaimedLast } from "@/lib/unclaimed";
 
 describe("unclaimed listings", () => {
   const accounts = new Set(["owner-1"]);
@@ -28,5 +28,35 @@ describe("unclaimed listings", () => {
     );
     expect(groups[0]?.reason).toContain("unclaimed and unverified");
     expect(groups[1]?.reason).toBe("Already says this page is unclaimed.");
+  });
+
+  it("keeps unclaimed listings at the end of a list and inside a search group", () => {
+    expect(sortUnclaimedLast([
+      { id: "u", unclaimed: true },
+      { id: "a", unclaimed: false },
+      { id: "b", unclaimed: false },
+    ]).map((item) => item.id)).toEqual(["a", "b", "u"]);
+
+    const grouped = placeUnclaimedLast(
+      [{ businesses: [{ slug: "unclaimed" }, { slug: "claimed" }, { slug: "also" }] }],
+      [
+        { slug: "unclaimed", unclaimed: true },
+        { slug: "claimed", unclaimed: false },
+        { slug: "also", unclaimed: false },
+      ],
+    );
+    expect(grouped[0]?.businesses.map((item) => item.slug)).toEqual(["claimed", "also", "unclaimed"]);
+
+    const sample = sampleUnclaimedLast(
+      [
+        { id: "c1" },
+        { id: "c2" },
+        { id: "c3" },
+        { id: "u1", unclaimed: true },
+      ],
+      3,
+      (pool, count) => pool.slice(0, count),
+    );
+    expect(sample.map((item) => item.id)).toEqual(["c1", "c2", "u1"]);
   });
 });

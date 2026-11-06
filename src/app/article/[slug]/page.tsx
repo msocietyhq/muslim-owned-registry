@@ -10,6 +10,7 @@ import { dateLocale } from "@/lib/i18n";
 import { getCopy } from "@/lib/lang";
 import { localizeArticle, localizeBusinesses } from "@/lib/localize";
 import { ui } from "@/lib/ui";
+import { sortUnclaimedLast } from "@/lib/unclaimed";
 
 export const revalidate = 3600;
 
@@ -48,9 +49,8 @@ export default async function ArticlePage({
   const original = getArticle(slug);
   if (!original) notFound();
   const article = await localizeArticle(original, lang);
-  const businesses = await localizeBusinesses(
-    await getBusinessesBySlugs(article.businessSlugs),
-    lang,
+  const businesses = sortUnclaimedLast(
+    await localizeBusinesses(await getBusinessesBySlugs(article.businessSlugs), lang),
   );
   const jsonLd = {
     "@context": "https://schema.org",

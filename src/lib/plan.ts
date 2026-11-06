@@ -99,6 +99,20 @@ function compactCatalogue(catalog: CatalogRow[]) {
   }));
 }
 
+export function placeUnclaimedLast<T extends { businesses: { slug: string }[] }>(
+  groups: T[],
+  catalog: { slug: string; unclaimed?: boolean }[],
+): T[] {
+  const unclaimed = new Set(catalog.filter((row) => row.unclaimed).map((row) => row.slug));
+  return groups.map((group) => ({
+    ...group,
+    businesses: [
+      ...group.businesses.filter((item) => !unclaimed.has(item.slug)),
+      ...group.businesses.filter((item) => unclaimed.has(item.slug)),
+    ],
+  }));
+}
+
 export function withUnclaimedReasons<T extends { reason: string; businesses: { slug: string }[] }>(
   groups: T[],
   catalog: { slug: string; unclaimed?: boolean }[],
@@ -296,7 +310,10 @@ export async function planFromIntent(intent: string): Promise<{
     }))
     .filter((group) => group.title && group.businesses.length);
 
-  return { groups: withUnclaimedReasons(mergeTextMatches(intent, catalog, groups), catalog), model };
+  return {
+    groups: placeUnclaimedLast(withUnclaimedReasons(mergeTextMatches(intent, catalog, groups), catalog), catalog),
+    model,
+  };
 }
 
 export function heuristicPlan(
@@ -375,5 +392,5 @@ export function heuristicPlan(
     }
   }
 
-  return withUnclaimedReasons(mergeTextMatches(intent, ranked, groups), ranked);
+  return placeUnclaimedLast(withUnclaimedReasons(mergeTextMatches(intent, ranked, groups), ranked), ranked);
 }

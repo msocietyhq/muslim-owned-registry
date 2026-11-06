@@ -12,6 +12,7 @@ import { getLiveBusinesses, getTagMap } from "@/lib/data";
 import { getCopy } from "@/lib/lang";
 import { localizeBusinesses, localizeTagMap } from "@/lib/localize";
 import { ui } from "@/lib/ui";
+import { sortUnclaimedLast } from "@/lib/unclaimed";
 
 export const revalidate = 3600;
 
@@ -26,7 +27,7 @@ export default async function WhyListPage() {
   const { lang, t } = await getCopy();
   const [businesses, tags] = await Promise.all([getLiveBusinesses(), getTagMap()]);
   const [featured, tagNames] = await Promise.all([
-    localizeBusinesses(businesses.slice(0, 6), lang),
+    localizeBusinesses(sortUnclaimedLast(businesses).slice(0, 6), lang),
     localizeTagMap(tags, lang),
   ]);
   const shotBusinesses = featured.slice(0, 4).map((item) => ({

@@ -6,6 +6,7 @@ import { dateLocale } from "@/lib/i18n";
 import { getCopy } from "@/lib/lang";
 import { localizeBusinesses, localizeTagMap } from "@/lib/localize";
 import { ui } from "@/lib/ui";
+import { sortUnclaimedLast } from "@/lib/unclaimed";
 
 export const revalidate = 3600;
 
@@ -37,9 +38,11 @@ export default async function TagPage({
     getTagMap(),
   ]);
   if (!tag) notFound();
-  const matches = await localizeBusinesses(
-    businesses.filter((business) => business.tagIds.includes(tag.id)),
-    lang,
+  const matches = sortUnclaimedLast(
+    await localizeBusinesses(
+      businesses.filter((business) => business.tagIds.includes(tag.id)),
+      lang,
+    ),
   );
   const shownTags = await localizeTagMap(tags, lang);
 
