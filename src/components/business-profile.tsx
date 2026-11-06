@@ -102,10 +102,6 @@ export function BusinessProfile({
             />
           </div>
           <DemoNote business={business} label={t.card.demo} note={t.biz.demoNote} />
-          <UnclaimedListing
-            slug={business.slug}
-            show={Boolean(business.unclaimed) && !isDemoListing(business)}
-          />
           {business.photos?.length ? (
             <div className="mb-6">
               <PhotoStrip photos={business.photos} alt={business.brandName} />
@@ -128,7 +124,11 @@ export function BusinessProfile({
           ) : null}
         </div>
         <aside className={`${ui.card} h-fit`}>
-          <p className="leading-relaxed">{t.biz.about}</p>
+          {business.unclaimed && !isDemoListing(business) ? (
+            <UnclaimedListing slug={business.slug} show />
+          ) : (
+            <p className="leading-relaxed">{t.biz.about}</p>
+          )}
         </aside>
       </section>
 

@@ -50,7 +50,7 @@ export function UnclaimedListing({
   }
 
   return (
-    <div className="mb-5 flex max-w-[62ch] flex-col gap-3">
+    <div className="flex flex-col gap-3">
       <UnclaimedBadge label={t.unclaimed.label} />
       <p className="rounded-2xl border border-stone-300 bg-stone-100 px-4 py-3 font-sans text-sm leading-relaxed text-stone-700">
         {t.unclaimed.note}
