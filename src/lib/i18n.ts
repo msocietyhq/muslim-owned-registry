@@ -209,7 +209,7 @@ export const messages = {
     },
     unclaimed: {
       label: "Unclaimed & unverified",
-      note: "Nobody with an account has claimed this page, and we have not checked that the business is Muslim-owned. Read it as a lead, and decide for yourself.",
+      note: "This listing was added via our automated system, and its muslim-owned status is not verified by any business representative.",
       button: "Is this your business? Click here.",
       title: "Is this your business?",
       lead: "This page is on the directory without an account behind it. If it is yours, claim a copy and we will review it in the usual way. When that copy is approved, this unclaimed page is removed. If the page should not be here, ask us to delete it.",
@@ -859,7 +859,7 @@ export const messages = {
     },
     unclaimed: {
       label: "Tidak dituntut & tidak disahkan",
-      note: "Tiada akaun yang menuntut halaman ini, dan kami belum menyemak sama ada perniagaan ini milik Muslim. Anggap ia sebagai petunjuk, dan putuskan sendiri.",
+      note: "Senarai ini ditambah melalui sistem automatik kami, dan status milik Muslimnya tidak disahkan oleh mana-mana wakil perniagaan.",
       button: "Ini perniagaan anda? Klik di sini.",
       title: "Ini perniagaan anda?",
       lead: "Halaman ini ada dalam direktori tanpa akaun di belakangnya. Jika ia milik anda, tuntut satu salinan dan kami akan menyemaknya seperti biasa. Apabila salinan itu diluluskan, halaman yang tidak dituntut ini dibuang. Jika halaman ini tidak sepatutnya ada, minta kami memadamnya.",
