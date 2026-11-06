@@ -45,6 +45,8 @@ function listing(partial: Partial<Business> & { id: string; createdAt: string })
     featuredUntil: null,
     primaryColor: null,
     secondaryColor: null,
+    supersedesBusinessId: null,
+    unclaimed: false,
     ...partial,
   };
 }

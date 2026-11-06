@@ -109,6 +109,8 @@ export async function createOwnerListing(params: {
     isDemo: null,
     foundingSlot: null,
     featuredUntil: null,
+    supersedesBusinessId: null,
+    unclaimed: false,
     ...listingColorsFromInput(body.primaryColor, body.secondaryColor),
   };
 

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { AddressCopyRow } from "@/components/address-copy-row";
 import { CopyTextButton } from "@/components/copy-text-button";
 import { DemoNote } from "@/components/demo-badge";
+import { UnclaimedListing } from "@/components/unclaimed-listing";
 import { ListingViewBeacon } from "@/components/listing-view-beacon";
 import { MarkdownBody } from "@/components/markdown-body";
 import { OsmEmbed } from "@/components/osm-embed";
@@ -101,6 +102,10 @@ export function BusinessProfile({
             />
           </div>
           <DemoNote business={business} label={t.card.demo} note={t.biz.demoNote} />
+          <UnclaimedListing
+            slug={business.slug}
+            show={Boolean(business.unclaimed) && !isDemoListing(business)}
+          />
           {business.photos?.length ? (
             <div className="mb-6">
               <PhotoStrip photos={business.photos} alt={business.brandName} />

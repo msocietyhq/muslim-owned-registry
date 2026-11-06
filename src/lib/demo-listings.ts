@@ -125,6 +125,8 @@ export function demoBusinesses(): Business[] {
       featuredUntil: null,
       primaryColor: null,
       secondaryColor: null,
+      supersedesBusinessId: null,
+      unclaimed: false,
     };
   }).sort((a, b) => a.brandName.localeCompare(b.brandName));
 }

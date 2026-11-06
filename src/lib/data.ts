@@ -17,6 +17,7 @@ import {
   type Verification,
 } from "@/lib/types";
 import { nextAvailableSlug } from "@/lib/slug";
+import { annotateUnclaimed } from "@/lib/unclaimed";
 import { parseWhatsappNumber, parseWhatsappTemplate } from "@/lib/whatsapp";
 
 export function asBusiness(id: string, data: Record<string, unknown>): Business {
@@ -37,6 +38,8 @@ export function asBusiness(id: string, data: Record<string, unknown>): Business 
     whatsappTemplate,
     primaryColor,
     secondaryColor,
+    supersedesBusinessId,
+    unclaimed: _unclaimed,
     ...rest
   } = data;
   return {
@@ -57,6 +60,8 @@ export function asBusiness(id: string, data: Record<string, unknown>): Business 
       | "whatsappTemplate"
       | "primaryColor"
       | "secondaryColor"
+      | "supersedesBusinessId"
+      | "unclaimed"
     >),
     id,
     description: typeof description === "string" ? description : "",
@@ -75,11 +80,16 @@ export function asBusiness(id: string, data: Record<string, unknown>): Business 
       typeof primaryColor === "string" ? primaryColor : null,
       typeof secondaryColor === "string" ? secondaryColor : null,
     ),
+    supersedesBusinessId:
+      typeof supersedesBusinessId === "string" && supersedesBusinessId.trim()
+        ? supersedesBusinessId
+        : null,
+    unclaimed: false,
   };
 }
 
 export function toBusinessDoc(business: Business): Record<string, unknown> {
-  const { isDemo, ...rest } = business;
+  const { isDemo, unclaimed: _unclaimed, ...rest } = business;
   return { ...rest, is_demo: isDemo };
 }
 
@@ -117,10 +127,12 @@ export async function getLiveBusinesses(): Promise<Business[]> {
       .collection("businesses")
       .where("status", "==", "live")
       .get();
-    return excludeDemoListings(
-      snap.docs
-        .map((doc) => asBusiness(doc.id, doc.data() || {}))
-        .sort((a, b) => a.brandName.localeCompare(b.brandName)),
+    return annotateUnclaimed(
+      excludeDemoListings(
+        snap.docs
+          .map((doc) => asBusiness(doc.id, doc.data() || {}))
+          .sort((a, b) => a.brandName.localeCompare(b.brandName)),
+      ),
     );
   } catch (error) {
     console.error("getLiveBusinesses", error);
@@ -154,7 +166,10 @@ export async function getBusinessBySlug(slug: string): Promise<Business | null> 
     const { db } = initAdmin();
     const snap = await db.collection("businesses").where("slug", "==", slug).get();
     if (snap.empty) return null;
-    return pickBusinessForSlug(snap.docs.map((doc) => asBusiness(doc.id, doc.data() || {})));
+    const picked = pickBusinessForSlug(snap.docs.map((doc) => asBusiness(doc.id, doc.data() || {})));
+    if (!picked) return null;
+    const [annotated] = await annotateUnclaimed([picked]);
+    return annotated || null;
   } catch (error) {
     console.error("getBusinessBySlug", error);
     return null;

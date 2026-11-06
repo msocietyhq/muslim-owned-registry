@@ -11,6 +11,7 @@ import {
 } from "@/lib/data";
 import { notifyAdminsOfOpenTask } from "@/lib/admin-notify";
 import { sendListingLiveMail, sendListingReceiptMail, sendListingRejectedMail } from "@/lib/email";
+import { retireSupersededUnclaimed } from "@/lib/claim-listing";
 import { createOwnerListing } from "@/lib/create-owner-listing";
 import { listingNeedsReview, ownerIdentityLocked } from "@/lib/listing-review";
 import {
@@ -28,6 +29,7 @@ import { publicSnapshot } from "@/lib/public-fields";
 import { getListingStatsMap } from "@/lib/listing-analytics";
 import { brandSlugPrefix } from "@/lib/slug";
 import { CONFIRMATION_MONTHS, type Business } from "@/lib/types";
+import { accountEmail } from "@/lib/unclaimed";
 import { listingDraftDocId } from "@/lib/listing-draft";
 
 async function ownerActor(
@@ -301,12 +303,15 @@ export async function PUT(request: NextRequest) {
       return json({ ok: true });
     }
 
-    let slug = business.slug;
+    let preferred = business.slug || brandSlugPrefix(business.brandName);
+    if (business.supersedesBusinessId) {
+      const source = await getBusiness(business.supersedesBusinessId);
+      await retireSupersededUnclaimed(business.supersedesBusinessId, actor);
+      if (source?.slug) preferred = source.slug;
+    }
+    let slug = preferred;
     try {
-      slug = await allocatePublishedSlug(
-        business.slug || brandSlugPrefix(business.brandName),
-        business.id,
-      );
+      slug = await allocatePublishedSlug(preferred, business.id);
     } catch (error) {
       throw new HttpError(
         400,
@@ -364,6 +369,16 @@ export async function PUT(request: NextRequest) {
       brandName: business.brandName,
       slug: next.slug,
     });
+    if (business.supersedesBusinessId) {
+      const ownerMail = await accountEmail(business.ownerId).catch(() => "");
+      if (ownerMail && ownerMail.toLowerCase() !== business.contactEmail.toLowerCase()) {
+        await sendListingLiveMail({
+          to: ownerMail,
+          brandName: business.brandName,
+          slug: next.slug,
+        });
+      }
+    }
     await refreshListing(next, previousSlug);
     return json({ ok: true, business: next });
   } catch (error) {

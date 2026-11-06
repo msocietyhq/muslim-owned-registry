@@ -8,6 +8,7 @@ import { getListingStatsMap } from "@/lib/listing-analytics";
 import { createManageLink } from "@/lib/listing-link";
 import { confirmationSchedule, shouldSendReminder } from "@/lib/confirmation-schedule";
 import { isDemoListing } from "@/lib/types";
+import { accountOwnerIds, listingIsUnclaimed } from "@/lib/unclaimed";
 import { randomUUID } from "crypto";
 
 export async function runConfirmations(now = new Date()) {
@@ -15,10 +16,12 @@ export async function runConfirmations(now = new Date()) {
   const live = await db.collection("businesses").where("status", "==", "live").get();
   const unpublished: string[] = [];
   const reminded: string[] = [];
+  const accountIds = await accountOwnerIds().catch(() => null);
 
   for (const doc of live.docs) {
     const business = asBusiness(doc.id, doc.data() || {});
     if (isDemoListing(business) || !business.confirmationDueAt) continue;
+    if (accountIds && listingIsUnclaimed(business, accountIds)) continue;
     const { remindFrom, unpublishAt } = confirmationSchedule(business.confirmationDueAt);
     const unpublishDate = new Date(unpublishAt);
 

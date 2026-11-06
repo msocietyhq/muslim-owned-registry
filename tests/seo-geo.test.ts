@@ -60,6 +60,8 @@ function business(patch: Partial<Business>): Business {
     featuredUntil: null,
     primaryColor: null,
     secondaryColor: null,
+    supersedesBusinessId: null,
+    unclaimed: false,
     ...patch,
   };
 }

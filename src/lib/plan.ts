@@ -33,6 +33,7 @@ export type CatalogRow = {
   lat?: number | null;
   lng?: number | null;
   km?: number | null;
+  unclaimed?: boolean;
 };
 
 function aboutText(item: CatalogRow) {
@@ -94,7 +95,23 @@ function compactCatalogue(catalog: CatalogRow[]) {
       .filter(Boolean)
       .join(" — ")
       .slice(0, 520),
+    ...(row.unclaimed ? { unclaimed: true } : {}),
   }));
+}
+
+export function withUnclaimedReasons<T extends { reason: string; businesses: { slug: string }[] }>(
+  groups: T[],
+  catalog: { slug: string; unclaimed?: boolean }[],
+): T[] {
+  const unclaimed = new Set(catalog.filter((row) => row.unclaimed).map((row) => row.slug));
+  return groups.map((group) => {
+    if (!group.businesses.some((item) => unclaimed.has(item.slug))) return group;
+    if (/unclaimed/i.test(group.reason)) return group;
+    return {
+      ...group,
+      reason: `${group.reason} This page is unclaimed and unverified.`.slice(0, 320),
+    };
+  });
 }
 
 export function keepCatalogueSlugs(
@@ -214,6 +231,7 @@ export async function planFromIntent(intent: string): Promise<{
       tags: business.tagIds.map(tagName),
       lat: business.lat,
       lng: business.lng,
+      unclaimed: business.unclaimed,
     })),
     origin,
   );
@@ -242,7 +260,7 @@ export async function planFromIntent(intent: string): Promise<{
         {
           role: "system",
           content:
-            "You match a visitor's need to businesses from the supplied catalogue only. Match against brandName, tags, AND the about text (summary plus the owner's listing description). Prefer businesses whose description clearly covers the need, not only those whose tags overlap. The visitor may want one business or several, for any practical reason, not only events. Never invent names or slugs. Reply JSON: {\"groups\":[{\"title\":\"\",\"reason\":\"\",\"slugs\":[\"catalogue-slug\"]}]} . Group by the kind of help needed. Use 1-6 groups. Omit empty groups. If nothing fits, return {\"groups\":[]}. If rows have km, prefer smaller km when the visitor named a place. Rows with km null are online-only; include them when the need is not a nearby shop.",
+            "You match a visitor's need to businesses from the supplied catalogue only. Match against brandName, tags, AND the about text (summary plus the owner's listing description). Prefer businesses whose description clearly covers the need, not only those whose tags overlap. The visitor may want one business or several, for any practical reason, not only events. Never invent names or slugs. Rows with unclaimed true are still real catalogue rows: recommend them when they fit, and say in the reason that the page is unclaimed and unverified. Reply JSON: {\"groups\":[{\"title\":\"\",\"reason\":\"\",\"slugs\":[\"catalogue-slug\"]}]} . Group by the kind of help needed. Use 1-6 groups. Omit empty groups. If nothing fits, return {\"groups\":[]}. If rows have km, prefer smaller km when the visitor named a place. Rows with km null are online-only; include them when the need is not a nearby shop.",
         },
         {
           role: "user",
@@ -278,7 +296,7 @@ export async function planFromIntent(intent: string): Promise<{
     }))
     .filter((group) => group.title && group.businesses.length);
 
-  return { groups: mergeTextMatches(intent, catalog, groups), model };
+  return { groups: withUnclaimedReasons(mergeTextMatches(intent, catalog, groups), catalog), model };
 }
 
 export function heuristicPlan(
@@ -357,5 +375,5 @@ export function heuristicPlan(
     }
   }
 
-  return mergeTextMatches(intent, ranked, groups);
+  return withUnclaimedReasons(mergeTextMatches(intent, ranked, groups), ranked);
 }

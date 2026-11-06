@@ -80,6 +80,10 @@ export type Business = {
   primaryColor: string | null;
   /** Optional second listing page colour. Ignored unless primaryColor is set. */
   secondaryColor: string | null;
+  /** Live unclaimed page this pending copy replaces once an admin accepts it. */
+  supersedesBusinessId: string | null;
+  /** True when no account email is attached. Computed, not stored. */
+  unclaimed: boolean;
 };
 
 export type PublicBusiness = Omit<Business, never> & {

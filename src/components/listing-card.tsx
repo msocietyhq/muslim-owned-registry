@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { DemoBadge } from "@/components/demo-badge";
+import { UnclaimedBadge } from "@/components/unclaimed-listing";
 import { PhotoStrip } from "@/components/photo-strip";
 import { SavedHeart } from "@/components/saved-heart";
 import { useCopy } from "@/components/i18n-provider";
@@ -53,6 +54,9 @@ export function ListingCard({
       >
         <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5">
           {isDemoListing(business) ? <DemoBadge label={demoLabel} /> : null}
+          {business.unclaimed && !isDemoListing(business) ? (
+            <UnclaimedBadge label={t.unclaimed.label} />
+          ) : null}
           {names ? (
             <p className="min-w-0 truncate font-sans text-[11px] font-semibold uppercase tracking-[0.14em] text-jade">
               {names}

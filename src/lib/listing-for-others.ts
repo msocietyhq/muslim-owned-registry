@@ -103,6 +103,8 @@ export async function createListingForOtherOwner(
     isDemo: null,
     foundingSlot: null,
     featuredUntil: null,
+    supersedesBusinessId: null,
+    unclaimed: false,
     ...listingColorsFromInput(input.primaryColor, input.secondaryColor),
   };
 

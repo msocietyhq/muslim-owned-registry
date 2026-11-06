@@ -198,7 +198,7 @@ export const messages = {
     },
     browse: {
       title: "Browse Muslim-owned businesses in Singapore.",
-      lead: "Search by brand, company name, neighbourhood, or what you need. You can also filter by tag. Every listing here is independently claimed by a representative of the business to be muslim-owned.",
+      lead: "Search by brand, company name, neighbourhood, or what you need. You can also filter by tag. Claimed listings were submitted by someone with an account. Pages marked unclaimed and unverified have no account behind them. You decide for yourself whether those businesses are Muslim-owned.",
       searchLabel: "Search the listing",
       searchPlaceholder: "Try Jurong West, a brand, or a need such as catering",
       searchButton: "Search",
@@ -206,6 +206,23 @@ export const messages = {
       emptyNone:
         "No businesses are listed yet. The first owners to list will appear on this page, and you are welcome to be one of them.",
       emptySearch: "Nothing matched that search yet. Try another word, or browse the directory.",
+    },
+    unclaimed: {
+      label: "Unclaimed & unverified",
+      note: "Nobody with an account has claimed this page, and we have not checked that the business is Muslim-owned. Read it as a lead, and decide for yourself.",
+      button: "Is this your business? Click here.",
+      title: "Is this your business?",
+      lead: "This page is on the directory without an account behind it. If it is yours, claim a copy and we will review it in the usual way. When that copy is approved, this unclaimed page is removed. If the page should not be here, ask us to delete it.",
+      create: "Create account and claim this listing",
+      claimNow: "Claim this listing",
+      delete: "Request for deletion",
+      deleteTitle: "Ask us to remove this listing",
+      deleteLead:
+        "Email afiq980@gmail.com from a business address that a visitor can already find on your website or another public page. Name the business and this page. We will check that the address belongs to the business, then remove the listing promptly.",
+      close: "Close",
+      busy: "Claiming…",
+      done: "We will copy this listing to your account. It stays private until an admin reviews it. When it is approved, this unclaimed page is removed.",
+      fail: "We could not claim this listing. Please try again.",
     },
     biz: {
       contact: "Contact this business",
@@ -831,7 +848,7 @@ export const messages = {
     },
     browse: {
       title: "Lihat perniagaan milik Muslim di Singapura.",
-      lead: "Cari mengikut jenama, nama syarikat, kawasan kejiranan, atau keperluan anda. Anda juga boleh tapis mengikut tag. Setiap senarai di sini dituntut secara bebas oleh wakil perniagaan sebagai perniagaan milik Muslim.",
+      lead: "Cari mengikut jenama, nama syarikat, kawasan kejiranan, atau keperluan anda. Anda juga boleh tapis mengikut tag. Senarai yang dituntut dihantar oleh seseorang yang ada akaun. Halaman yang bertanda tidak dituntut dan tidak disahkan tidak ada akaun di belakangnya. Anda sendiri yang memutuskan sama ada perniagaan itu milik Muslim.",
       searchLabel: "Cari dalam senarai",
       searchPlaceholder: "Cuba Jurong West, jenama, atau keperluan seperti katering",
       searchButton: "Cari",
@@ -839,6 +856,23 @@ export const messages = {
       emptyNone:
         "Belum ada perniagaan tersenarai. Pemilik pertama yang tersenarai akan muncul di halaman ini, dan anda dialu-alukan untuk menjadi salah seorang daripada mereka.",
       emptySearch: "Tiada yang sepadan dengan carian itu lagi. Cuba perkataan lain, atau lihat direktori.",
+    },
+    unclaimed: {
+      label: "Tidak dituntut & tidak disahkan",
+      note: "Tiada akaun yang menuntut halaman ini, dan kami belum menyemak sama ada perniagaan ini milik Muslim. Anggap ia sebagai petunjuk, dan putuskan sendiri.",
+      button: "Ini perniagaan anda? Klik di sini.",
+      title: "Ini perniagaan anda?",
+      lead: "Halaman ini ada dalam direktori tanpa akaun di belakangnya. Jika ia milik anda, tuntut satu salinan dan kami akan menyemaknya seperti biasa. Apabila salinan itu diluluskan, halaman yang tidak dituntut ini dibuang. Jika halaman ini tidak sepatutnya ada, minta kami memadamnya.",
+      create: "Cipta akaun dan tuntut senarai ini",
+      claimNow: "Tuntut senarai ini",
+      delete: "Minta pemadaman",
+      deleteTitle: "Minta kami membuang senarai ini",
+      deleteLead:
+        "E-mel afiq980@gmail.com daripada alamat e-mel perniagaan yang pelawat sudah boleh jumpa di laman web anda atau halaman awam yang lain. Nyatakan nama perniagaan dan halaman ini. Kami akan semak bahawa alamat itu milik perniagaan, kemudian buang senarai ini dengan segera.",
+      close: "Tutup",
+      busy: "Sedang menuntut…",
+      done: "Kami akan salin senarai ini ke akaun anda. Ia kekal peribadi sehingga admin menyemaknya. Apabila diluluskan, halaman yang tidak dituntut ini dibuang.",
+      fail: "Kami tidak dapat menuntut senarai ini. Sila cuba lagi.",
     },
     biz: {
       contact: "Hubungi perniagaan ini",
