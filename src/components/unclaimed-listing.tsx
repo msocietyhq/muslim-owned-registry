@@ -6,9 +6,15 @@ import { useCopy } from "@/components/i18n-provider";
 import { readSession } from "@/lib/api-client";
 import { ui } from "@/lib/ui";
 
-export function UnclaimedBadge({ label }: { label: string }) {
+export function UnclaimedBadge({ label, small = false }: { label: string; small?: boolean }) {
   return (
-    <span className="inline-flex rounded-full border border-amber-300/90 bg-amber-100 px-2.5 py-0.5 font-sans text-[10px] font-semibold uppercase tracking-[0.12em] text-amber-950">
+    <span
+      className={
+        small
+          ? "inline-flex rounded-full border border-amber-300/80 bg-amber-100 px-1.5 py-px font-sans text-[9px] font-medium leading-tight tracking-[0.04em] text-amber-950"
+          : "inline-flex rounded-full border border-amber-300/90 bg-amber-100 px-2.5 py-0.5 font-sans text-[10px] font-semibold uppercase tracking-[0.12em] text-amber-950"
+      }
+    >
       {label}
     </span>
   );

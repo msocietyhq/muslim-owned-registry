@@ -33,7 +33,8 @@ export function ListingCard({
   const updated = formatUpdatedAgo(business.lastConfirmedAt, t.card);
   const meta = [distanceLabel, updated].filter(Boolean).join(" · ");
   return (
-    <article className="relative flex min-h-0 w-full min-w-0 max-w-full flex-nowrap items-start gap-3 overflow-hidden rounded-[1.25rem] border border-rule/70 bg-surface p-3 text-ink shadow-[0_12px_32px_-20px_rgba(14,75,58,0.45)] sm:gap-3.5 sm:p-3.5">
+    <article className="relative flex min-h-0 w-full min-w-0 max-w-full flex-col overflow-hidden rounded-[1.25rem] border border-rule/70 bg-surface p-3 text-ink shadow-[0_12px_32px_-20px_rgba(14,75,58,0.45)] sm:p-3.5">
+      <div className="flex min-w-0 flex-nowrap items-start gap-3 sm:gap-3.5">
       <SavedHeart
         slug={business.slug}
         saveLabel={t.card.save}
@@ -54,9 +55,6 @@ export function ListingCard({
       >
         <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5">
           {isDemoListing(business) ? <DemoBadge label={demoLabel} /> : null}
-          {business.unclaimed && !isDemoListing(business) ? (
-            <UnclaimedBadge label={t.unclaimed.label} />
-          ) : null}
           {names ? (
             <p className="min-w-0 truncate font-sans text-[11px] font-semibold uppercase tracking-[0.14em] text-jade">
               {names}
@@ -72,6 +70,12 @@ export function ListingCard({
         ) : null}
         {meta ? <p className="mt-1 font-sans text-[11px] leading-snug text-muted">{meta}</p> : null}
       </Link>
+      </div>
+      {business.unclaimed && !isDemoListing(business) ? (
+        <div className="mt-2">
+          <UnclaimedBadge label={t.unclaimed.label} small />
+        </div>
+      ) : null}
     </article>
   );
 }
