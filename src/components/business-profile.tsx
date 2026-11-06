@@ -232,6 +232,7 @@ export function BusinessProfile({
         </section>
       ) : null}
 
+      {historyItems.length ? (
       <section className="border-t border-rule/70 py-12">
         <h2 className={ui.sectionTitle}>{t.biz.history}</h2>
         <div className="max-h-[min(22rem,55vh)] overflow-y-auto overscroll-contain rounded-2xl border border-rule/70 bg-surface/70 px-4 py-3">
@@ -282,6 +283,7 @@ export function BusinessProfile({
           </p>
         ) : null}
       </section>
+      ) : null}
     </div>
   );
 }
