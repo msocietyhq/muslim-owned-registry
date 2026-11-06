@@ -135,11 +135,13 @@ export function BusinessProfile({
       <section className="grid gap-8 border-t border-rule/70 py-12 md:grid-cols-2">
         <div>
           <h2 className={ui.sectionTitle}>{t.biz.contact}</h2>
-          <p>
-            <a className={ui.link} href={`mailto:${business.contactEmail}`}>
-              {business.contactEmail}
-            </a>
-          </p>
+          {business.contactEmail ? (
+            <p>
+              <a className={ui.link} href={`mailto:${business.contactEmail}`}>
+                {business.contactEmail}
+              </a>
+            </p>
+          ) : null}
           {business.whatsapp ? (
             <p className="mt-3">
               <OutboundLink

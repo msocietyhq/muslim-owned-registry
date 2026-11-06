@@ -182,6 +182,11 @@ export default function AdminPage() {
           <Link className={ui.button} href="/admin/add-for-others">
             {t.adminPage.addForOthersCta}
           </Link>
+          <h2 className={`${ui.sectionTitle} mt-10`}>{t.adminPage.addUnclaimedTitle}</h2>
+          <p className="mb-6 leading-relaxed">{t.adminPage.addUnclaimedLead}</p>
+          <Link className={ui.button} href="/admin/unclaimed">
+            {t.adminPage.addUnclaimedCta}
+          </Link>
         </section>
       ) : null}
 

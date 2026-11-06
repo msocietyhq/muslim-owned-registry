@@ -449,6 +449,12 @@ export const messages = {
       addForOthersSubmit: "Email the owner to finish this listing",
       addForOthersSent:
         "We emailed {email}. They can open the listing, edit it, and submit it for approval.",
+      addUnclaimedCta: "Add unclaimed listing",
+      addUnclaimedTitle: "Add an unclaimed listing",
+      addUnclaimedLead:
+        "Publish a page with no account behind it. It appears in the directory as unclaimed and unverified. A business can claim it later.",
+      addUnclaimedSubmit: "Publish this unclaimed listing",
+      addUnclaimedSent: "Published. The public page is",
       adminsTitle: "Admins",
       adminsLead:
         "Any admin can add or remove another admin. You cannot remove your own admin access.",
@@ -1099,6 +1105,12 @@ export const messages = {
       addForOthersSubmit: "E-mel pemilik untuk menyiapkan senarai ini",
       addForOthersSent:
         "Kami telah e-mel {email}. Mereka boleh buka senarai, sunting, dan hantar untuk kelulusan.",
+      addUnclaimedCta: "Tambah senarai tidak dituntut",
+      addUnclaimedTitle: "Tambah senarai tidak dituntut",
+      addUnclaimedLead:
+        "Terbitkan halaman tanpa akaun di belakangnya. Ia muncul dalam direktori sebagai tidak dituntut dan tidak disahkan. Perniagaan boleh menuntutnya kemudian.",
+      addUnclaimedSubmit: "Terbitkan senarai tidak dituntut ini",
+      addUnclaimedSent: "Diterbitkan. Halaman awam ialah",
       adminsTitle: "Admin",
       adminsLead:
         "Mana-mana admin boleh menambah atau mengeluarkan admin lain. Anda tidak boleh mengeluarkan akses admin anda sendiri.",
