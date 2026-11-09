@@ -14,10 +14,11 @@ import { initAdmin } from "@/lib/firebase/admin";
 import { historyActor, writeHistory } from "@/lib/history";
 import { HttpError } from "@/lib/http";
 import { acceptedTermsCopy } from "@/lib/legal";
+import { revalidatePath } from "next/cache";
 import { revalidatePublicListing } from "@/lib/cache";
 import { publicSnapshot } from "@/lib/public-fields";
 import { TERMS_VERSION, type Business, type HistoryActor } from "@/lib/types";
-import { accountOwnerIds, listingIsUnclaimed } from "@/lib/unclaimed";
+import { accountOwnerIds, canRemoveUnclaimedListing, listingIsUnclaimed } from "@/lib/unclaimed";
 
 function claimSlugFor(sourceSlug: string, id: string) {
   const base = `${sourceSlug}-claim`.replace(/[^a-z0-9-]/gi, "").slice(0, 72);
@@ -139,6 +140,32 @@ export async function claimUnclaimedListing(input: {
   }).catch((error) => console.error("admin task mail", error));
 
   return { businessId: id, already: false, taskId };
+}
+
+export async function removeUnclaimedByActor(input: {
+  id: string;
+  actor: HistoryActor;
+  isAdmin: boolean;
+}) {
+  const source = await getBusiness(input.id);
+  if (!source || source.status === "removed") throw new HttpError(404, "Listing not found.");
+  const accountIds = await accountOwnerIds();
+  if (
+    !canRemoveUnclaimedListing(source, accountIds, {
+      uid: input.actor.id,
+      isAdmin: input.isAdmin,
+    })
+  ) {
+    throw new HttpError(403, "Only an admin can remove an unclaimed listing.");
+  }
+  const now = new Date().toISOString();
+  const next: Business = { ...source, status: "removed", updatedAt: now, unclaimed: false };
+  const { db } = initAdmin();
+  await db.collection("businesses").doc(source.id).set(toBusinessDoc(next), { merge: true });
+  await writeHistory("businesses", source.id, "delete", publicSnapshot(toBusinessDoc(next)), input.actor);
+  revalidatePublicListing(source.slug);
+  revalidatePath("/browse");
+  return next;
 }
 
 export async function retireSupersededUnclaimed(sourceId: string, actor: HistoryActor) {

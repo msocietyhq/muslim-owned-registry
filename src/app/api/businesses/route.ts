@@ -29,7 +29,7 @@ import { publicSnapshot } from "@/lib/public-fields";
 import { getListingStatsMap } from "@/lib/listing-analytics";
 import { brandSlugPrefix } from "@/lib/slug";
 import { CONFIRMATION_MONTHS, type Business } from "@/lib/types";
-import { accountEmail } from "@/lib/unclaimed";
+import { accountEmail, annotateUnclaimed } from "@/lib/unclaimed";
 import { listingDraftDocId } from "@/lib/listing-draft";
 
 async function ownerActor(
@@ -42,7 +42,7 @@ async function ownerActor(
 export async function GET(request: NextRequest) {
   try {
     const user = await requireUser(request);
-    const businesses = await getBusinessesByOwner(user.uid);
+    const businesses = await annotateUnclaimed(await getBusinessesByOwner(user.uid));
     const stats = await getListingStatsMap(businesses.map((business) => business.id));
     return json({ businesses, stats });
   } catch (error) {

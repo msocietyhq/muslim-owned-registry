@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AdminAccounts } from "@/components/admin-accounts";
 import { AdminTeam } from "@/components/admin-team";
+import { ApiKeysPanel } from "@/components/api-keys-panel";
 import { MarkdownBody } from "@/components/markdown-body";
 import { useCopy } from "@/components/i18n-provider";
 import { api } from "@/lib/api-client";
@@ -22,7 +23,7 @@ type ListingClickRow = {
   uniqueViews: number;
 };
 
-const TABS = ["tasks", "visitors", "listings", "people", "admins", "add"] as const;
+const TABS = ["tasks", "visitors", "listings", "people", "admins", "add", "api"] as const;
 type Tab = (typeof TABS)[number];
 
 function tabFromHash(): Tab {
@@ -140,6 +141,7 @@ export default function AdminPage() {
     people: t.adminPage.tabPeople,
     admins: t.adminPage.tabAdmins,
     add: t.adminPage.tabAdd,
+    api: t.apiKeys.title,
   };
 
   return (
@@ -174,6 +176,8 @@ export default function AdminPage() {
           </div>
         </div>
       ) : null}
+
+      {isAdminUser && tab === "api" ? <ApiKeysPanel admin /> : null}
 
       {isAdminUser && tab === "add" ? (
         <section className="mt-8 max-w-[54ch]">

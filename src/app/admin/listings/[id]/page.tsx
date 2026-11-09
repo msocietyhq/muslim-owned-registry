@@ -10,6 +10,7 @@ import { MarkdownEditor } from "@/components/markdown-editor";
 import { PhotoUploader } from "@/components/photo-uploader";
 import { TagPicker } from "@/components/tag-picker";
 import { WhatsappFields } from "@/components/whatsapp-fields";
+import { RemoveUnclaimedButton } from "@/components/unclaimed-listing";
 import { SaveToast } from "@/components/save-toast";
 import { useCopy } from "@/components/i18n-provider";
 import { api } from "@/lib/api-client";
@@ -371,6 +372,11 @@ export default function AdminEditListingPage() {
           {busy ? t.app.saving : t.app.save}
         </button>
       </form>
+      {business.unclaimed && business.status !== "removed" ? (
+        <div className="mt-8">
+          <RemoveUnclaimedButton businessId={business.id} redirectTo="/admin" />
+        </div>
+      ) : null}
       {toastKey ? <SaveToast key={toastKey} message={t.app.saved} /> : null}
     </div>
   );

@@ -140,6 +140,11 @@ export const messages = {
           body: "Use WhatsApp or the contact on the page. Bookings stay between you and the business.",
         },
       ],
+      agentsTitle: "Using an AI agent to find a business?",
+      agentsLead:
+        "We are an AI agent friendly website. With your AI agent, click below and use our API to efficiently search and get all our listings.",
+      agentsClick: "For AI agents, please click here.",
+      agentsCta: "How an AI agent can use the directory",
     },
     why: {
       kicker: "For owners",
@@ -198,7 +203,7 @@ export const messages = {
     },
     browse: {
       title: "Browse Muslim-owned businesses in Singapore.",
-      lead: "Search by brand, company name, neighbourhood, or what you need. You can also filter by tag. Claimed listings were submitted by someone with an account. Pages marked unclaimed and unverified have no account behind them. You decide for yourself whether those businesses are Muslim-owned.",
+      lead: "Search by brand, company name, neighbourhood, or what you need. You can also filter by tag. Claimed listings were submitted by someone with an account. Pages marked to be claimed and verified have no account behind them. You decide for yourself whether those businesses are Muslim-owned.",
       searchLabel: "Search the listing",
       searchPlaceholder: "Try Jurong West, a brand, or a need such as catering",
       searchButton: "Search",
@@ -208,7 +213,7 @@ export const messages = {
       emptySearch: "Nothing matched that search yet. Try another word, or browse the directory.",
     },
     unclaimed: {
-      label: "Unclaimed & unverified",
+      label: "To be claimed and verified",
       note: "This listing was added via our automated system, and its muslim-owned status is not verified by any business representative.",
       button: "Is this your business? Click here.",
       title: "Is this your business?",
@@ -220,6 +225,12 @@ export const messages = {
       deleteLead:
         "Email afiq980@gmail.com from a business address that a visitor can already find on your website or another public page. Name the business and this page. We will check that the address belongs to the business, then remove the listing promptly.",
       close: "Close",
+      remove: "Remove this listing",
+      removeTitle: "Remove this unclaimed listing?",
+      removeLead: "This takes the page off the directory. The change is logged with your name.",
+      removeConfirm: "Remove listing",
+      removeBusy: "Removing…",
+      removeFail: "We could not remove this listing. Please try again.",
       busy: "Claiming…",
       done: "We will copy this listing to your account. It stays private until an admin reviews it. When it is approved, this unclaimed page is removed.",
       fail: "We could not claim this listing. Please try again.",
@@ -452,7 +463,7 @@ export const messages = {
       addUnclaimedCta: "Add unclaimed listing",
       addUnclaimedTitle: "Add an unclaimed listing",
       addUnclaimedLead:
-        "Publish a page with no account behind it. It appears in the directory as unclaimed and unverified. A business can claim it later.",
+        "Publish a page with no account behind it. It appears in the directory as to be claimed and verified. A business can claim it later.",
       addUnclaimedSubmit: "Publish this unclaimed listing",
       addUnclaimedSent: "Published. The public page is",
       adminsTitle: "Admins",
@@ -622,6 +633,32 @@ export const messages = {
       privacyThirdBody:
         "Email is sent through Resend. Search may call DeepSeek with listed names, listing URLs, tags, summaries, descriptions, and map pins. If you ask us to fill a listing from a website, we fetch that page and may send the visible text to DeepSeek. Firebase hosts authentication, the database, files, and the app. Map search and map tiles come from OpenStreetMap.",
       privacyClose: "muslimowned.sg is an independent community listing for Singapore.",
+    },
+    apiKeys: {
+      title: "API keys",
+      lead: "A key acts as the person it belongs to. An admin key can do everything on the admin panel. An owner key can only view and change that owner's listings.",
+      docs: "An agent can read the full API at",
+      name: "Name",
+      role: "Who this key acts as",
+      roleAdmin: "Admin",
+      roleOwner: "Business owner",
+      ownerEmail: "Owner email",
+      createAdmin: "Create admin key",
+      createOwner: "Create owner key",
+      once: "Copy this key now. It is not shown again.",
+      revoke: "Revoke",
+      revoked: "Revoked",
+      empty: "No keys yet.",
+      fail: "Could not change API keys.",
+    },
+    agentsPage: {
+      title: "For AI agents",
+      lead: "This directory is completely free for everyone and for AI agents to access. No account needed.",
+      searchTitle: "Search in one sentence",
+      searchBody:
+        "Use the search API to use smart search. For example, simply say “I want to organise a party” and the smart search will search all listings that are related to organising a party.",
+      listTitle: "Read the full list",
+      listBody: "If you prefer to view all listings by alphabetical order, use this API. Each page has 50 results.",
     },
     notFound: {
       title: "We could not find that page.",
@@ -796,6 +833,11 @@ export const messages = {
           body: "Guna WhatsApp atau hubungan pada halaman. Tempahan kekal antara anda dan perniagaan.",
         },
       ],
+      agentsTitle: "Guna ejen AI untuk cari perniagaan?",
+      agentsLead:
+        "Kami laman web yang mesra ejen AI. Dengan ejen AI anda, klik di bawah dan guna API kami untuk cari dan dapat semua senarai dengan cekap.",
+      agentsClick: "Untuk ejen AI, sila klik di sini.",
+      agentsCta: "Bagaimana ejen AI boleh guna direktori",
     },
     why: {
       kicker: "Untuk pemilik",
@@ -854,7 +896,7 @@ export const messages = {
     },
     browse: {
       title: "Lihat perniagaan milik Muslim di Singapura.",
-      lead: "Cari mengikut jenama, nama syarikat, kawasan kejiranan, atau keperluan anda. Anda juga boleh tapis mengikut tag. Senarai yang dituntut dihantar oleh seseorang yang ada akaun. Halaman yang bertanda tidak dituntut dan tidak disahkan tidak ada akaun di belakangnya. Anda sendiri yang memutuskan sama ada perniagaan itu milik Muslim.",
+      lead: "Cari mengikut jenama, nama syarikat, kawasan kejiranan, atau keperluan anda. Anda juga boleh tapis mengikut tag. Senarai yang dituntut dihantar oleh seseorang yang ada akaun. Halaman yang bertanda untuk dituntut dan disahkan tidak ada akaun di belakangnya. Anda sendiri yang memutuskan sama ada perniagaan itu milik Muslim.",
       searchLabel: "Cari dalam senarai",
       searchPlaceholder: "Cuba Jurong West, jenama, atau keperluan seperti katering",
       searchButton: "Cari",
@@ -864,7 +906,7 @@ export const messages = {
       emptySearch: "Tiada yang sepadan dengan carian itu lagi. Cuba perkataan lain, atau lihat direktori.",
     },
     unclaimed: {
-      label: "Tidak dituntut & tidak disahkan",
+      label: "Untuk dituntut dan disahkan",
       note: "Senarai ini ditambah melalui sistem automatik kami, dan status milik Muslimnya tidak disahkan oleh mana-mana wakil perniagaan.",
       button: "Ini perniagaan anda? Klik di sini.",
       title: "Ini perniagaan anda?",
@@ -876,6 +918,12 @@ export const messages = {
       deleteLead:
         "E-mel afiq980@gmail.com daripada alamat e-mel perniagaan yang pelawat sudah boleh jumpa di laman web anda atau halaman awam yang lain. Nyatakan nama perniagaan dan halaman ini. Kami akan semak bahawa alamat itu milik perniagaan, kemudian buang senarai ini dengan segera.",
       close: "Tutup",
+      remove: "Buang senarai ini",
+      removeTitle: "Buang senarai tidak dituntut ini?",
+      removeLead: "Ini mengeluarkan halaman ini daripada direktori. Perubahan ini dilog dengan nama anda.",
+      removeConfirm: "Buang senarai",
+      removeBusy: "Sedang membuang…",
+      removeFail: "Kami tidak dapat membuang senarai ini. Sila cuba lagi.",
       busy: "Sedang menuntut…",
       done: "Kami akan salin senarai ini ke akaun anda. Ia kekal peribadi sehingga admin menyemaknya. Apabila diluluskan, halaman yang tidak dituntut ini dibuang.",
       fail: "Kami tidak dapat menuntut senarai ini. Sila cuba lagi.",
@@ -1108,7 +1156,7 @@ export const messages = {
       addUnclaimedCta: "Tambah senarai tidak dituntut",
       addUnclaimedTitle: "Tambah senarai tidak dituntut",
       addUnclaimedLead:
-        "Terbitkan halaman tanpa akaun di belakangnya. Ia muncul dalam direktori sebagai tidak dituntut dan tidak disahkan. Perniagaan boleh menuntutnya kemudian.",
+        "Terbitkan halaman tanpa akaun di belakangnya. Ia muncul dalam direktori sebagai untuk dituntut dan disahkan. Perniagaan boleh menuntutnya kemudian.",
       addUnclaimedSubmit: "Terbitkan senarai tidak dituntut ini",
       addUnclaimedSent: "Diterbitkan. Halaman awam ialah",
       adminsTitle: "Admin",
@@ -1280,6 +1328,32 @@ export const messages = {
       privacyThirdBody:
         "E-mel dihantar melalui Resend. Carian mungkin memanggil DeepSeek dengan nama senarai, URL senarai, tag, pengenalan, keterangan, dan pin peta. Jika anda minta kami isi senarai daripada laman web, kami mengambil halaman itu dan mungkin menghantar teks nampak kepada DeepSeek. Firebase menghoskan pengesahan, pangkalan data, fail, dan aplikasi. Carian peta dan jubin peta datang daripada OpenStreetMap.",
       privacyClose: "muslimowned.sg ialah senarai komuniti yang berdiri sendiri untuk Singapura.",
+    },
+    apiKeys: {
+      title: "Kunci API",
+      lead: "Kunci ini bertindak sebagai orang yang memilikinya. Kunci admin boleh buat semua yang ada pada panel admin. Kunci pemilik hanya boleh lihat dan ubah senarai pemilik itu.",
+      docs: "Ejen boleh baca API penuh di",
+      name: "Nama",
+      role: "Kunci ini bertindak sebagai",
+      roleAdmin: "Admin",
+      roleOwner: "Pemilik perniagaan",
+      ownerEmail: "E-mel pemilik",
+      createAdmin: "Cipta kunci admin",
+      createOwner: "Cipta kunci pemilik",
+      once: "Salin kunci ini sekarang. Ia tidak ditunjukkan lagi.",
+      revoke: "Batalkan",
+      revoked: "Dibatalkan",
+      empty: "Belum ada kunci.",
+      fail: "Tidak dapat mengubah kunci API.",
+    },
+    agentsPage: {
+      title: "Untuk ejen AI",
+      lead: "Direktori ini percuma sepenuhnya untuk semua orang dan untuk ejen AI. Akaun tidak diperlukan.",
+      searchTitle: "Cari dalam satu ayat",
+      searchBody:
+        "Guna API carian untuk carian pintar. Contohnya, katakan “Saya mahu menganjurkan sebuah majlis” dan carian pintar akan mencari semua senarai yang berkaitan dengan menganjurkan majlis itu.",
+      listTitle: "Baca senarai penuh",
+      listBody: "Jika anda lebih suka melihat semua senarai mengikut abjad, guna API ini. Setiap halaman ada 50 hasil.",
     },
     notFound: {
       title: "Kami tidak menemui halaman itu.",

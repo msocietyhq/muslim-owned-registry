@@ -6,6 +6,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useCopy } from "@/components/i18n-provider";
 import { api } from "@/lib/api-client";
 import { useAuthUser } from "@/lib/use-auth-user";
+import { ApiKeysPanel } from "@/components/api-keys-panel";
 import { OwnerListingStats } from "@/components/owner-listing-stats";
 import type { Business, ListingStats } from "@/lib/types";
 import { isDemoListing } from "@/lib/types";
@@ -179,6 +180,7 @@ function DashboardInner() {
           ))}
         </ul>
       )}
+      <ApiKeysPanel />
     </div>
   );
 }

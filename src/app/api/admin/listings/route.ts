@@ -6,6 +6,7 @@ import { historyActor, writeHistoryUnlessUnchanged } from "@/lib/history";
 import { errorResponse, HttpError, json, requireAdmin } from "@/lib/http";
 import { applyListingPatch, listingFieldsSchema, refreshListing } from "@/lib/listing-update";
 import { publicSnapshot } from "@/lib/public-fields";
+import { annotateUnclaimed } from "@/lib/unclaimed";
 
 export async function GET(request: NextRequest) {
   try {
@@ -14,7 +15,8 @@ export async function GET(request: NextRequest) {
     if (!id) throw new HttpError(400, "Missing listing id.");
     const business = await getBusiness(id);
     if (!business) throw new HttpError(404, "Listing not found.");
-    return json({ business });
+    const [annotated] = await annotateUnclaimed([business]);
+    return json({ business: annotated || business });
   } catch (error) {
     return errorResponse(error);
   }

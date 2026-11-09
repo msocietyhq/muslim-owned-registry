@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { errorResponse, json } from "@/lib/http";
 import { listingSlugsFromGroups, publishListingAnalytics } from "@/lib/listing-analytics";
-import { planFromIntent } from "@/lib/plan";
+import { planFromIntent, translatePlanGroups } from "@/lib/plan";
 import { incrementSearchCount } from "@/lib/stats";
 import {
   SEARCH_COUNTED_COOKIE,
@@ -23,23 +23,7 @@ export async function POST(request: NextRequest) {
       })
       .parse(await request.json());
     const result = await planFromIntent(body.intent);
-    let groups = result.groups;
-    if (body.lang === "zh" || body.lang === "ta") {
-      const { translateMany } = await import("@/lib/google-translate");
-      const titles = await translateMany(
-        result.groups.map((group) => group.title),
-        body.lang,
-      );
-      const reasons = await translateMany(
-        result.groups.map((group) => group.reason),
-        body.lang,
-      );
-      groups = result.groups.map((group, index) => ({
-        ...group,
-        title: titles[index] || group.title,
-        reason: reasons[index] || group.reason,
-      }));
-    }
+    const groups = await translatePlanGroups(result.groups, body.lang);
 
     const countThisBrowser = shouldCountSearch(
       request.cookies.get(SEARCH_COUNTED_COOKIE)?.value,

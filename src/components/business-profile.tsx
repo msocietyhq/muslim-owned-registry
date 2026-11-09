@@ -75,7 +75,11 @@ export function BusinessProfile({
   return (
     <div className={`${ui.shell} listing-brand`} {...brand}>
       {isDemoListing(business) ? null : <ListingViewBeacon businessId={business.id} />}
-      <section className={`${ui.hero} grid gap-8 md:grid-cols-[1.4fr_0.8fr]`}>
+      <section
+        className={`${ui.hero} grid gap-8 ${
+          business.unclaimed && !isDemoListing(business) ? "" : "md:grid-cols-[1.4fr_0.8fr]"
+        }`}
+      >
         <div>
           <div className="mb-6 flex items-start justify-between gap-3">
             <div className="min-w-0">
@@ -123,13 +127,11 @@ export function BusinessProfile({
             </p>
           ) : null}
         </div>
-        <aside className={`${ui.card} h-fit`}>
-          {business.unclaimed && !isDemoListing(business) ? (
-            <UnclaimedListing slug={business.slug} show />
-          ) : (
+        {business.unclaimed && !isDemoListing(business) ? null : (
+          <aside className={`${ui.card} h-fit`}>
             <p className="leading-relaxed">{t.biz.about}</p>
-          )}
-        </aside>
+          </aside>
+        )}
       </section>
 
       <section className="grid gap-8 border-t border-rule/70 py-12 md:grid-cols-2">
@@ -231,6 +233,12 @@ export function BusinessProfile({
               </li>
             ))}
           </ul>
+        </section>
+      ) : null}
+
+      {business.unclaimed && !isDemoListing(business) ? (
+        <section className="border-t border-rule/70 py-12">
+          <UnclaimedListing slug={business.slug} businessId={business.id} show />
         </section>
       ) : null}
 

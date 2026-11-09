@@ -1,9 +1,32 @@
 import { describe, expect, it } from "vitest";
 import { placeUnclaimedLast, withUnclaimedReasons } from "@/lib/plan";
-import { listingIsUnclaimed, sampleUnclaimedLast, sortUnclaimedLast } from "@/lib/unclaimed";
+import {
+  canRemoveUnclaimedListing,
+  listingIsUnclaimed,
+  sampleUnclaimedLast,
+  sortUnclaimedLast,
+} from "@/lib/unclaimed";
 
 describe("unclaimed listings", () => {
   const accounts = new Set(["owner-1"]);
+
+  it("lets an admin or the attached owner remove an unclaimed listing", () => {
+    const unclaimed = { isDemo: false, ownerId: "", status: "live" };
+    const ownedButUnverified = { isDemo: false, ownerId: "missing", status: "live" };
+    const claimed = { isDemo: false, ownerId: "owner-1", status: "live" };
+    expect(canRemoveUnclaimedListing(unclaimed, accounts, { uid: "anyone", isAdmin: true })).toBe(true);
+    expect(canRemoveUnclaimedListing(unclaimed, accounts, { uid: "anyone", isAdmin: false })).toBe(false);
+    expect(
+      canRemoveUnclaimedListing(ownedButUnverified, accounts, { uid: "missing", isAdmin: false }),
+    ).toBe(false);
+    expect(
+      canRemoveUnclaimedListing(ownedButUnverified, accounts, { uid: "missing", isAdmin: true }),
+    ).toBe(true);
+    expect(canRemoveUnclaimedListing(claimed, accounts, { uid: "owner-1", isAdmin: false })).toBe(false);
+    expect(
+      canRemoveUnclaimedListing({ ...unclaimed, status: "removed" }, accounts, { uid: "admin", isAdmin: true }),
+    ).toBe(false);
+  });
 
   it("treats a missing account as unclaimed and leaves demos claimed", () => {
     expect(listingIsUnclaimed({ isDemo: false, ownerId: "" }, accounts)).toBe(true);
@@ -26,7 +49,7 @@ describe("unclaimed listings", () => {
       ],
       [{ slug: "example-harbour-kopi", unclaimed: true }],
     );
-    expect(groups[0]?.reason).toContain("unclaimed and unverified");
+    expect(groups[0]?.reason).toContain("to be claimed and verified");
     expect(groups[1]?.reason).toBe("Already says this page is unclaimed.");
   });
 

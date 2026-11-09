@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { DirectoryTimeline } from "@/components/directory-timeline";
 import { HomeFinder } from "@/components/home-finder";
 import { getLiveBusinesses, getTags } from "@/lib/data";
@@ -54,6 +55,18 @@ export default async function HomePage() {
           ]}
         />
       </div>
+      <section className="border-t border-rule/70">
+        <div className={`${ui.shell} py-12 sm:py-16`}>
+          <h2 className={`${ui.sectionTitle} max-w-[22ch]`}>{t.home.agentsTitle}</h2>
+          <p className="max-w-[54ch] leading-relaxed">{t.home.agentsLead}</p>
+          <p className="mt-6 max-w-[54ch] leading-relaxed">
+            {t.home.agentsClick}{" "}
+            <Link className={ui.link} href="/for-ai-agents">
+              {t.home.agentsCta}
+            </Link>
+          </p>
+        </div>
+      </section>
     </div>
   );
 }

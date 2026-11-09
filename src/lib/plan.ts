@@ -16,6 +16,7 @@ import {
 import { markdownPlainText } from "@/lib/markdown";
 import { geocodeSingapore } from "@/lib/nominatim";
 import { runtimeEnv } from "@/lib/runtime-env";
+import { withSearchCache } from "@/lib/search-cache";
 
 type Group = {
   title: string;
@@ -99,6 +100,27 @@ function compactCatalogue(catalog: CatalogRow[]) {
   }));
 }
 
+export async function translatePlanGroups<T extends { title: string; reason: string }>(
+  groups: T[],
+  lang?: string,
+): Promise<T[]> {
+  if ((lang !== "zh" && lang !== "ta") || !groups.length) return groups;
+  const { translateMany } = await import("@/lib/google-translate");
+  const titles = await translateMany(
+    groups.map((group) => group.title),
+    lang,
+  );
+  const reasons = await translateMany(
+    groups.map((group) => group.reason),
+    lang,
+  );
+  return groups.map((group, index) => ({
+    ...group,
+    title: titles[index] || group.title,
+    reason: reasons[index] || group.reason,
+  }));
+}
+
 export function placeUnclaimedLast<T extends { businesses: { slug: string }[] }>(
   groups: T[],
   catalog: { slug: string; unclaimed?: boolean }[],
@@ -120,10 +142,10 @@ export function withUnclaimedReasons<T extends { reason: string; businesses: { s
   const unclaimed = new Set(catalog.filter((row) => row.unclaimed).map((row) => row.slug));
   return groups.map((group) => {
     if (!group.businesses.some((item) => unclaimed.has(item.slug))) return group;
-    if (/unclaimed/i.test(group.reason)) return group;
+    if (/unclaimed|to be claimed/i.test(group.reason)) return group;
     return {
       ...group,
-      reason: `${group.reason} This page is unclaimed and unverified.`.slice(0, 320),
+      reason: `${group.reason} This page is to be claimed and verified.`.slice(0, 320),
     };
   });
 }
@@ -231,6 +253,17 @@ export async function planFromIntent(intent: string): Promise<{
   groups: Group[];
   model: string;
 }> {
+  return withSearchCache(
+    intent,
+    () => planFromIntentUncached(intent),
+    (result) => result.model !== "none",
+  );
+}
+
+async function planFromIntentUncached(intent: string): Promise<{
+  groups: Group[];
+  model: string;
+}> {
   const [businesses, tags] = await Promise.all([getLiveBusinesses(), getTags()]);
   const tagName = (id: string) => tags.find((tag) => tag.id === id)?.name || id;
   const origin = await resolvePlace(intent);
@@ -274,7 +307,7 @@ export async function planFromIntent(intent: string): Promise<{
         {
           role: "system",
           content:
-            "You match a visitor's need to businesses from the supplied catalogue only. Match against brandName, tags, AND the about text (summary plus the owner's listing description). Prefer businesses whose description clearly covers the need, not only those whose tags overlap. The visitor may want one business or several, for any practical reason, not only events. Never invent names or slugs. Rows with unclaimed true are still real catalogue rows: recommend them when they fit, and say in the reason that the page is unclaimed and unverified. Reply JSON: {\"groups\":[{\"title\":\"\",\"reason\":\"\",\"slugs\":[\"catalogue-slug\"]}]} . Group by the kind of help needed. Use 1-6 groups. Omit empty groups. If nothing fits, return {\"groups\":[]}. If rows have km, prefer smaller km when the visitor named a place. Rows with km null are online-only; include them when the need is not a nearby shop.",
+            "You match a visitor's need to businesses from the supplied catalogue only. Match against brandName, tags, AND the about text (summary plus the owner's listing description). Prefer businesses whose description clearly covers the need, not only those whose tags overlap. The visitor may want one business or several, for any practical reason, not only events. Never invent names or slugs. Rows with unclaimed true are still real catalogue rows: recommend them when they fit, and say in the reason that the page is to be claimed and verified. Reply JSON: {\"groups\":[{\"title\":\"\",\"reason\":\"\",\"slugs\":[\"catalogue-slug\"]}]} . Group by the kind of help needed. Use 1-6 groups. Omit empty groups. If nothing fits, return {\"groups\":[]}. If rows have km, prefer smaller km when the visitor named a place. Rows with km null are online-only; include them when the need is not a nearby shop.",
         },
         {
           role: "user",

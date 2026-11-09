@@ -36,6 +36,16 @@ export function listingIsUnclaimed(
   return !accountIds.has(ownerId);
 }
 
+export function canRemoveUnclaimedListing(
+  business: { isDemo: boolean | null; ownerId: string; status: string },
+  accountIds: Set<string>,
+  actor: { uid: string; isAdmin: boolean },
+) {
+  if (business.status === "removed") return false;
+  if (!listingIsUnclaimed(business, accountIds)) return false;
+  return actor.isAdmin;
+}
+
 export async function accountOwnerIds() {
   if (accountCache && Date.now() - accountCache.at < CACHE_MS) return accountCache.ids;
   const sql = await sqlClient();

@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { DemoBadge } from "@/components/demo-badge";
-import { UnclaimedBadge } from "@/components/unclaimed-listing";
 import { PhotoStrip } from "@/components/photo-strip";
 import { SavedHeart } from "@/components/saved-heart";
 import { useCopy } from "@/components/i18n-provider";
@@ -30,8 +29,15 @@ export function ListingCard({
         .filter(Boolean)
         .join(" · ")
     : "";
-  const updated = formatUpdatedAgo(business.lastConfirmedAt, t.card);
-  const meta = [distanceLabel, updated].filter(Boolean).join(" · ");
+  const updated = formatUpdatedAgo(
+    business.unclaimed && !isDemoListing(business)
+      ? business.updatedAt || business.createdAt
+      : business.lastConfirmedAt,
+    t.card,
+  );
+  const claimNote =
+    business.unclaimed && !isDemoListing(business) ? t.unclaimed.label : "";
+  const metaLead = [distanceLabel, updated].filter(Boolean).join(" · ");
   return (
     <article className="relative flex min-h-0 w-full min-w-0 max-w-full flex-col overflow-hidden rounded-[1.25rem] border border-rule/70 bg-surface p-3 text-ink shadow-[0_12px_32px_-20px_rgba(14,75,58,0.45)] sm:p-3.5">
       <div className="flex min-w-0 flex-nowrap items-start gap-3 sm:gap-3.5">
@@ -68,14 +74,27 @@ export function ListingCard({
         {business.summary ? (
           <p className="mt-0.5 line-clamp-2 text-[13px] leading-snug [overflow-wrap:anywhere]">{business.summary}</p>
         ) : null}
-        {meta ? <p className="mt-1 font-sans text-[11px] leading-snug text-muted">{meta}</p> : null}
+        {metaLead || claimNote ? (
+          <p className="mt-1 font-sans text-[11px] leading-snug text-muted">
+            {metaLead}
+            {claimNote ? (
+              <>
+                {metaLead ? " · " : null}
+                <svg
+                  aria-hidden
+                  viewBox="0 0 16 16"
+                  className="mr-0.5 inline-block h-3 w-3 shrink-0 align-[-0.125em] text-amber-500"
+                  fill="currentColor"
+                >
+                  <path d="M8.9 1.7a1 1 0 0 0-1.8 0L1.2 13.1A1 1 0 0 0 2.1 14.5h11.8a1 1 0 0 0 .9-1.4L8.9 1.7zM8 5.2a.7.7 0 0 1 .7.7v3.2a.7.7 0 1 1-1.4 0V5.9A.7.7 0 0 1 8 5.2zm0 6.9a.8.8 0 1 1 0-1.6.8.8 0 0 1 0 1.6z" />
+                </svg>
+                {claimNote}
+              </>
+            ) : null}
+          </p>
+        ) : null}
       </Link>
       </div>
-      {business.unclaimed && !isDemoListing(business) ? (
-        <div className="mt-2">
-          <UnclaimedBadge label={t.unclaimed.label} small />
-        </div>
-      ) : null}
     </article>
   );
 }
